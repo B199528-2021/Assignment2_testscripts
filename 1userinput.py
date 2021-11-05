@@ -2,4 +2,84 @@
 
 import os, sys, subprocess, shutil
 
-print("This is a test.")
+# # test the query with test set 
+# os.system(
+# "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]' | efetch -format fasta > ./efetch/testset.fasta"
+# )
+
+# save user input into variables
+print("Please enter first the protein family and then the taxonomic group.")
+prot_fam = input("Protein family:\n")
+
+
+# check if there are any hits
+
+# # test without function
+# prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+# os.system(
+# f"{prot_fam_query} > esearchprotfam.txt"
+# )
+# with open("esearchprotfam.txt") as testprotfam:
+    # testprotfam = testprotfam.read()
+# # split the esearch result
+# templist = testprotfam.split()
+# # pick the line with the number of hits ("Count")
+# countnumber = []
+# for templistelement in templist:
+    # if templistelement.startswith("<Count>"):
+        # countnumber.append(templistelement)
+# # pick it as a string (instead of a list)
+# countnumber = countnumber[0]
+# # delete "Count" and brackets
+# countnumber = countnumber.replace("<Count>", "")
+# countnumber = countnumber.replace("</Count>", "")
+# # convert to integer
+# countnumber = int(countnumber)
+# # delete textfile
+# os.remove("esearchprotfam.txt")
+# # print(type(countnumber))
+# print(countnumber)
+
+# write it into a function
+
+def count_nr_of_esearch_hits(query):
+    """
+    Returns the number of esearch hits from entrez direct.
+    
+    Parameters:
+    -----------
+    
+    query : string
+        should have only one condition (without "AND" or "OR")
+        e.g. "esearch -db protein -query 'glucose-6-phosphatase[PROT]'"
+    """
+    os.system(
+    f"{query} > esearchoutput.txt"
+    )
+    with open("esearchoutput.txt") as checkoutput:
+        checkoutput = checkoutput.read()
+    # split the esearch result
+    templist = checkoutput.split()
+    # pick the line with the number of hits ("Count")
+    countnumber = []
+    for templistelement in templist:
+        if templistelement.startswith("<Count>"):
+            countnumber.append(templistelement)
+    # convert to string, pick number only
+    countnumber = countnumber[0].replace("<Count>", "").replace("</Count>", "")
+    # convert to integer
+    countnumber = int(countnumber)
+    # delete textfile
+    os.remove("esearchoutput.txt")
+    # print(type(countnumber))
+    return(countnumber)
+
+prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+
+#print(f"The number of hits is {count_nr_of_esearch_hits(prot_fam_query)}.")
+
+# repeat user input as long as the number of hits is zero
+
+
+
+print("FINISHED.")
