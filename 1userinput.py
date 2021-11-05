@@ -119,6 +119,7 @@ both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN
 both_hits = count_nr_of_esearch_hits(both_query)
 print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} is {both_hits}.\n")
 
+
 # ask the user if it is ok to continue
 print("If you are not satisfied with this number, you can stop here and start again with a new query.")
 
@@ -127,12 +128,25 @@ while True:
     while cont.lower() not in ("yes","no"):
         cont = input("Please type in 'yes' or 'no' > ")
     if cont.lower() == "yes":
-        print("Okay, we will continue now.")
+        print("Okay, the sequences are being downloaded now...")
         break
     elif cont.lower() == "no":
         print("You have decided to stop and start again with a new query.")
         exit()
 
+
+# download the data with efetch 
+os.system(
+f"{both_query} | efetch -format fasta > ./efetch/userquery.fasta"
+)
+
+# the full file
+print("Please find the fasta file in the folder 'efetch'.")
+with open("efetch/userquery.fasta") as fullfastafile:
+    fullfastafile = fullfastafile.read()
+
+
+    
 
 
 print("FINISHED.")
