@@ -75,10 +75,16 @@ def count_nr_of_esearch_hits(query):
     return(countnumber)
 
 prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
-
-#print(f"The number of hits is {count_nr_of_esearch_hits(prot_fam_query)}.")
+prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
 # repeat user input as long as the number of hits is zero
+while prot_fam_hits == 0:
+    print(f"\nYou have probably mistyped the protein family, because there are no hits for you query.")
+    prot_fam = input("Please try again. Type in the PROTEIN FAMILY:\n")
+    prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+    prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
+
+print(f"The number of hits is {prot_fam_hits}.\n")
 
 
 
