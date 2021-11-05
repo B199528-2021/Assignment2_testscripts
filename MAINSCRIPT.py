@@ -10,7 +10,9 @@ print("")
 
 # create a subfolder for all output files (if it already exists, nothing happens)
 Path("output").mkdir(exist_ok=True)
-print("Please find all your outputs in the folder 'output'.\n")
+Path("efetch").mkdir(exist_ok=True)
+
+print("Please find all your output data in the folder 'output'.\n")
 
 
 #=====TEST=====

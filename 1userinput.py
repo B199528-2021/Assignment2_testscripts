@@ -74,7 +74,9 @@ def count_nr_of_esearch_hits(query):
     # print(type(countnumber))
     return(countnumber)
 
+# search the query separately
 prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+# check the number of hits 
 prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
 # repeat user input as long as the number of hits is zero
@@ -84,7 +86,28 @@ while prot_fam_hits == 0:
     prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
     prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
-print(f"The number of hits is {prot_fam_hits}.\n")
+print(f"The number of hits is {prot_fam_hits}.")
+print(f"Your chosen protein family is '{prot_fam}'.\n")
+
+
+# go on with taxonomic group
+print("Please enter the taxonomic group now.")
+tax_group = input("Taxonomic group:\n")
+
+# search the query separately
+tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN]'"
+# check the number of hits 
+tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
+
+# repeat user input as long as the number of hits is zero
+while tax_group_hits == 0:
+    print(f"\nYou have probably mistyped the taxonomic group, because there are no hits for you query.")
+    tax_group = input("Please try again. Type in a valid TAXONOMIC GROUP:\n")
+    tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN]'"
+    tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
+
+print(f"The number of hits is {tax_group_hits}.")
+print(f"Your chosen taxonomic group is '{tax_group}'.\n")
 
 
 
