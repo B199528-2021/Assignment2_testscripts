@@ -117,7 +117,22 @@ print(f"Your chosen taxonomic group is '{tax_group}'.\n")
 both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN]'"
 # check the number of hits 
 both_hits = count_nr_of_esearch_hits(both_query)
-print(f"The number of hits for {prot_fam} and {tax_group} is {both_hits}.\n")
+print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} is {both_hits}.\n")
+
+# ask the user if it is ok to continue
+print("If you are not satisfied with this number, you can stop here and start again with a new query.")
+
+while True:
+    cont = input("Do you want to continue with this number of sequences? yes/no > ")
+    while cont.lower() not in ("yes","no"):
+        cont = input("Please type in 'yes' or 'no' > ")
+    if cont.lower() == "yes":
+        print("Okay, we will continue now.")
+        break
+    elif cont.lower() == "no":
+        print("You have decided to stop and start again with a new query.")
+        exit()
+
 
 
 print("FINISHED.")
