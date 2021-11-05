@@ -7,10 +7,9 @@ import os, sys, subprocess, shutil
 # "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]' | efetch -format fasta > ./efetch/testset.fasta"
 # )
 
-# save user input into variables
-print("Please enter first the protein family and then the taxonomic group.")
-prot_fam = input("Protein family:\n")
-
+# # save user input into variables
+# print("Please enter first the protein family and then the taxonomic group.")
+# prot_fam = input("Protein family:\n")
 
 # check if there are any hits
 
@@ -50,8 +49,8 @@ def count_nr_of_esearch_hits(query):
     -----------
     
     query : string
-        should have only one condition (without "AND" or "OR")
         e.g. "esearch -db protein -query 'glucose-6-phosphatase[PROT]'"
+        e.g. "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]'"
     """
     os.system(
     f"{query} > esearchoutput.txt"
@@ -74,6 +73,10 @@ def count_nr_of_esearch_hits(query):
     # print(type(countnumber))
     return(countnumber)
 
+# save user input into variables
+print("Please enter first the protein family and then the taxonomic group.")
+prot_fam = input("Protein family:\n").lower()
+
 # search the query separately
 prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
 # check the number of hits 
@@ -92,7 +95,7 @@ print(f"Your chosen protein family is '{prot_fam}'.\n")
 
 # go on with taxonomic group
 print("Please enter the taxonomic group now.")
-tax_group = input("Taxonomic group:\n")
+tax_group = input("Taxonomic group:\n").lower()
 
 # search the query separately
 tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN]'"
@@ -109,6 +112,12 @@ while tax_group_hits == 0:
 print(f"The number of hits is {tax_group_hits}.")
 print(f"Your chosen taxonomic group is '{tax_group}'.\n")
 
+
+# now check both (prot_fam & tax_group) in combination
+both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN]'"
+# check the number of hits 
+both_hits = count_nr_of_esearch_hits(both_query)
+print(f"The number of hits for {prot_fam} and {tax_group} is {both_hits}.\n")
 
 
 print("FINISHED.")
