@@ -169,14 +169,27 @@ df_organisms = pd.DataFrame (organisms, columns = ["organism"])
 # let the user know
 print(f"{len(df_organisms['organism'].value_counts())} species are represented in the dataset.\n")
 
-print("Here you can see a preview of all organisms and how often they are represented in the data:")
+print("Here you can see a preview of all organisms and how often they are represented in the data.")
+print("In the left column you can find the organisms and in the right column how often they are represented:")
 print(df_organisms["organism"].value_counts())
 
 print("\nPlease find the whole csv file in the folder 'output' under the name 'organisms_count.csv'.\n")
 df_organisms["organism"].value_counts().to_csv("./output/organisms_count.csv", header=False)
 
 
+# ask the user if it is ok to continue
+print("If you are not satisfied with this, you can stop here and start again with a new query.")
 
+while True:
+    cont = input("Do you want to continue with these organisms? 'yes'/'no' > ")
+    while cont.lower() not in ("yes", "no"):
+        cont = input("Please type in 'yes' or 'no' > ")
+    if cont.lower() == "yes":
+        print("Okay, we continue with the current dataset...")
+        break
+    elif cont.lower() == "no":
+        print("You have decided to stop and start again with a new query.")
+        exit()
 
 
 print("FINISHED.")
