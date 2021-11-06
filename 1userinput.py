@@ -126,7 +126,7 @@ print("If you are not satisfied with this number, you can stop here and start ag
 
 while True:
     cont = input("Do you want to continue with this number of sequences? 'yes'/'no' > ")
-    while cont.lower() not in ("yes","no"):
+    while cont.lower() not in ("yes", "no"):
         cont = input("Please type in 'yes' or 'no' > ")
     if cont.lower() == "yes":
         print("Okay, the sequences are being downloaded now...")
@@ -142,7 +142,7 @@ f"{both_query} | efetch -format fasta > ./efetch/userquery.fasta"
 )
 
 # the full file
-print("Please find the fasta file in the folder 'efetch'.")
+print("Please find the fasta file in the folder 'efetch'.\n")
 
 # read line by line to find out the headers
 with open("efetch/userquery.fasta") as fullfastafile:
@@ -166,7 +166,17 @@ for headerlines in headers:
 # get the number of each organism
 df_organisms = pd.DataFrame (organisms, columns = ["organism"])
 
+# let the user know
+print(f"{len(df_organisms['organism'].value_counts())} species are represented in the dataset.\n")
+
+print("Here you can see a preview of all organisms and how often they are represented in the data:")
 print(df_organisms["organism"].value_counts())
+
+print("\nPlease find the whole csv file in the folder 'output' under the name 'organisms_count.csv'.\n")
+df_organisms["organism"].value_counts().to_csv("./output/organisms_count.csv", header=False)
+
+
+
 
 
 print("FINISHED.")
