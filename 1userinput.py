@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 import os, sys, subprocess, shutil
+import pandas as pd
 
 # # test the query with test set 
 # os.system(
@@ -124,7 +125,7 @@ print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} is {bo
 print("If you are not satisfied with this number, you can stop here and start again with a new query.")
 
 while True:
-    cont = input("Do you want to continue with this number of sequences? yes/no > ")
+    cont = input("Do you want to continue with this number of sequences? 'yes'/'no' > ")
     while cont.lower() not in ("yes","no"):
         cont = input("Please type in 'yes' or 'no' > ")
     if cont.lower() == "yes":
@@ -142,11 +143,30 @@ f"{both_query} | efetch -format fasta > ./efetch/userquery.fasta"
 
 # the full file
 print("Please find the fasta file in the folder 'efetch'.")
+
+# read line by line to find out the headers
 with open("efetch/userquery.fasta") as fullfastafile:
-    fullfastafile = fullfastafile.read()
+    fullfastafile = fullfastafile.readlines()
+headers = []
+for lines in fullfastafile:
+    if lines.startswith(">"):
+        headers.append(lines)
+#print(headers)
 
+# get the organisms of the headers
+organisms = []
+for headerlines in headers:
+    # delete the first part before the bracket
+    oneorganism = headerlines.split("[")[1]
+    # delete the other part after the bracket
+    oneorganism = oneorganism.replace("]\n", "")
+    organisms.append(oneorganism)
+#print(organisms)
 
-    
+# get the number of each organism
+df_organisms = pd.DataFrame (organisms, columns = ["organism"])
+
+print(df_organisms["organism"].value_counts())
 
 
 print("FINISHED.")
