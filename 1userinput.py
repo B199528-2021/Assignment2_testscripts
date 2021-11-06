@@ -129,7 +129,7 @@ while True:
     while cont.lower() not in ("yes", "no"):
         cont = input("Please type in 'yes' or 'no' > ")
     if cont.lower() == "yes":
-        print("Okay, the sequences are being downloaded now...")
+        print("Okay, the sequences are now being downloaded...")
         break
     elif cont.lower() == "no":
         print("You have decided to stop and start again with a new query.")
@@ -192,4 +192,6 @@ while True:
         exit()
 
 
-print("FINISHED.")
+print("Checking user input finished.")
+
+exit()

@@ -14,13 +14,13 @@ Path("efetch").mkdir(exist_ok=True)
 
 print("Please find all your output data in the folder 'output'.\n")
 
-
-#=====TEST=====
-
 # run the Python scripts
+
 subprocess.call("chmod +x 1userinput.py", shell=True)
 subprocess.call("./1userinput.py", shell=True)
 
+subprocess.call("chmod +x 2conservation.py", shell=True)
+subprocess.call("./2conservation.py", shell=True)
 
 
 
