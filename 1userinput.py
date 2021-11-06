@@ -83,9 +83,9 @@ prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
 # check the number of hits 
 prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
-# repeat user input as long as the number of hits is zero
-while prot_fam_hits == 0:
-    print(f"\nYou have probably mistyped the protein family, because there are no hits for you query.")
+# repeat user input as long as the number of hits is not at least 2 (needed for clustalo)
+while prot_fam_hits < 2:
+    print(f"\nYou have probably mistyped the protein family, because there are either no or not enough hits.")
     prot_fam = input("Please try again. Type in the PROTEIN FAMILY:\n")
     prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
     prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
@@ -103,9 +103,9 @@ tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
 # check the number of hits 
 tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
 
-# repeat user input as long as the number of hits is zero
-while tax_group_hits == 0:
-    print(f"\nYou have probably mistyped the taxonomic group, because there are no hits for you query.")
+# repeat user input as long as the number of hits is not at least 2 (needed for clustalo)
+while tax_group_hits < 2:
+    print(f"\nYou have probably mistyped the taxonomic group, because there are either no or not enough hits.")
     tax_group = input("Please try again. Type in a valid TAXONOMIC GROUP:\n")
     tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
     tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
@@ -120,6 +120,11 @@ both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN
 both_hits = count_nr_of_esearch_hits(both_query)
 print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} is {both_hits}.\n")
 
+# set the minimum number of hits (a minimum of 2 is necessary for the multiple sequence alignment)
+if both_hits < 2:
+    print("A minimum of TWO sequences is required for multiple sequence alignment.")
+    print("Please start again with a query which outputs more than 1 sequence.")
+    exit()
 
 # ask the user if it is ok to continue
 print("If you are not satisfied with this number, you can stop here and start again with a new query.")
@@ -138,14 +143,14 @@ while True:
 
 # download the data with efetch 
 os.system(
-f"{both_query} | efetch -format fasta > ./efetch/userquery.fasta"
+f"{both_query} | efetch -format fasta > ./output/userquery.fasta"
 )
 
 # the full file
-print("Please find the fasta file in the folder 'efetch'.\n")
+print("Please find the fasta file 'userquery.fasta' in the folder 'output'.\n")
 
 # read line by line to find out the headers
-with open("efetch/userquery.fasta") as fullfastafile:
+with open("output/userquery.fasta") as fullfastafile:
     fullfastafile = fullfastafile.readlines()
 headers = []
 for lines in fullfastafile:
