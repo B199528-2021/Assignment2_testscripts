@@ -78,8 +78,8 @@ def count_nr_of_esearch_hits(query):
 print("Please enter first the protein family and then the taxonomic group.")
 prot_fam = input("Protein family:\n").lower()
 
-# search the query separately
-prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+# search the query separately without partial sequences
+prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
 # check the number of hits 
 prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
@@ -87,7 +87,7 @@ prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 while prot_fam_hits == 0:
     print(f"\nYou have probably mistyped the protein family, because there are no hits for you query.")
     prot_fam = input("Please try again. Type in the PROTEIN FAMILY:\n")
-    prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
+    prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
     prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
 
 print(f"The number of hits is {prot_fam_hits}.")
@@ -98,8 +98,8 @@ print(f"Your chosen protein family is '{prot_fam}'.\n")
 print("Please enter the taxonomic group now.")
 tax_group = input("Taxonomic group:\n").lower()
 
-# search the query separately
-tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN]'"
+# search the query separately without partial sequences
+tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
 # check the number of hits 
 tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
 
@@ -107,7 +107,7 @@ tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
 while tax_group_hits == 0:
     print(f"\nYou have probably mistyped the taxonomic group, because there are no hits for you query.")
     tax_group = input("Please try again. Type in a valid TAXONOMIC GROUP:\n")
-    tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN]'"
+    tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
     tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
 
 print(f"The number of hits is {tax_group_hits}.")
@@ -115,7 +115,7 @@ print(f"Your chosen taxonomic group is '{tax_group}'.\n")
 
 
 # now check both (prot_fam & tax_group) in combination
-both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN]'"
+both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL'"
 # check the number of hits 
 both_hits = count_nr_of_esearch_hits(both_query)
 print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} is {both_hits}.\n")
