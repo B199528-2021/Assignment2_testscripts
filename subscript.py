@@ -1,3 +1,13 @@
+import os
+import sys
+import subprocess
+import shutil
+from pathlib import Path # a very useful tool for navigating through paths
+
+import pandas as pd
+import numpy as np
+
+
 def task1():
     # # test the query with test set 
     # os.system(
@@ -49,9 +59,7 @@ def task1():
             e.g. "esearch -db protein -query 'glucose-6-phosphatase[PROT]'"
             e.g. "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]'"
         """
-        os.system(
-        f"{query} > esearchoutput.txt"
-        )
+        os.system(f"{query} > esearchoutput.txt")
         with open("esearchoutput.txt") as checkoutput:
             checkoutput = checkoutput.read()
         # split the esearch result
@@ -204,5 +212,7 @@ def task1():
 
     print("Checking user input finished.")
 
+
 def task2():
+    
     print("TODO task2")
