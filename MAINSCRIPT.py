@@ -23,9 +23,12 @@ Path("output").mkdir(exist_ok=True)
 
 print("Please find all your output data in the folder 'output'.\n")
 
-task1() # check user input
+# delete: #=======================================TODO: uncomment!!!====================
+# return the userinput and save it into the variable "userquery"
+userquery = task1() # check user input
 
-task2() # conservation analysis plot
+# use the userinput in the next task
+task2(userquery) # conservation analysis plot
 
 print("FINISHED")
 

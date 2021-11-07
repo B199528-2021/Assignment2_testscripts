@@ -9,6 +9,7 @@ import numpy as np
 
 
 def task1():
+
     # # test the query with test set 
     # os.system(
     # "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]' | efetch -format fasta > ./efetch/testset.fasta"
@@ -190,8 +191,8 @@ def task1():
     print("In the left column you can find the organisms and in the right column how often they are represented:")
     print(df_organisms["organism"].value_counts())
 
-    print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}organisms_count.csv'.\n")
-    df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}organisms_count.csv", header=False)
+    print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.\n")
+    df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}_organisms_count.csv", header=False)
 
 
     # ask the user if it is ok to continue
@@ -210,10 +211,17 @@ def task1():
 
 
     print("Checking user input finished.")
-
-
-def task2():
     
+    # return the variable "userquery", so that it can be used in the next task
+    return userquery
+
+def task2(userquery):
     
+    print("Please be patient. Clustal Omega is now producing multiple sequence alignments for your query...")
+    
+    # run clustalo via the shell to get aligned sequences
+    #subprocess.call(f"clustalo --infile ./output/aves_glucose-6-phosphatase.fasta --outfile ./output/aves_glucose-6-phosphatase_aligned_seqs.fasta -v", shell=True)
+    
+    print(f"Clustal Omega has finished. Please find the fasta file '{userquery}.fasta' in the folder 'output'.\n")
     
     print("TODO task2")
