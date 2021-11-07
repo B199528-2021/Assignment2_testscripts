@@ -210,18 +210,23 @@ def task1():
             exit()
 
 
-    print("Checking user input finished.")
+    print("Checking user input finished.\n")
     
     # return the variable "userquery", so that it can be used in the next task
     return userquery
 
-def task2(userquery):
+
+def task2clustalo(userquery):
     
-    print("Please be patient. Clustal Omega is now producing multiple sequence alignments for your query...")
+    print("Please be patient. Clustal Omega is now producing multiple sequence alignments for your query...\n")
     
     # run clustalo via the shell to get aligned sequences
-    #subprocess.call(f"clustalo --infile ./output/aves_glucose-6-phosphatase.fasta --outfile ./output/aves_glucose-6-phosphatase_aligned_seqs.fasta -v", shell=True)
+    subprocess.call(f"clustalo --infile ./output/{userquery}.fasta --outfile ./output/{userquery}_aligned_seqs.fasta -v --force", shell=True)
     
-    print(f"Clustal Omega has finished. Please find the fasta file '{userquery}.fasta' in the folder 'output'.\n")
+    print(f"\nClustal Omega has finished. Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
     
+
+def task2plotcon(userquery):
+    
+    print(f"TODO plotcon {userquery}")
     print("TODO task2")
