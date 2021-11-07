@@ -136,9 +136,6 @@ def task1():
         print("Please start again with a query which outputs a valid number of sequences.")
         exit()
 
-    if both_hits > 4000:
-        pritn
-
     # ask the user if it is ok to continue
     print("If you are not satisfied with this number, you can stop here and start again with a new query.")
 
@@ -153,17 +150,19 @@ def task1():
             print("You have decided to stop and start again with a new query.")
             exit()
 
+    # save file in variable
+    userquery = f"{tax_group.lower().replace(' ', '')}_{prot_fam.lower().replace(' ', '')}"
 
     # download the data with efetch 
     os.system(
-    f"{both_query} | efetch -format fasta > ./output/userquery.fasta"
+    f"{both_query} | efetch -format fasta > ./output/{userquery}.fasta"
     )
 
     # the full file
-    print("Please find the fasta file 'userquery.fasta' in the folder 'output'.\n")
+    print(f"Please find the fasta file '{userquery}.fasta' in the folder 'output'.\n")
 
     # read line by line to find out the headers
-    with open("output/userquery.fasta") as fullfastafile:
+    with open(f"output/{userquery}.fasta") as fullfastafile:
         fullfastafile = fullfastafile.readlines()
     headers = []
     for lines in fullfastafile:
@@ -191,8 +190,8 @@ def task1():
     print("In the left column you can find the organisms and in the right column how often they are represented:")
     print(df_organisms["organism"].value_counts())
 
-    print("\nPlease find the whole csv file in the folder 'output' under the name 'organisms_count.csv'.\n")
-    df_organisms["organism"].value_counts().to_csv("./output/organisms_count.csv", header=False)
+    print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}organisms_count.csv'.\n")
+    df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}organisms_count.csv", header=False)
 
 
     # ask the user if it is ok to continue
@@ -214,5 +213,7 @@ def task1():
 
 
 def task2():
+    
+    
     
     print("TODO task2")
