@@ -228,5 +228,15 @@ def task2clustalo(userquery):
 
 def task2plotcon(userquery):
     
+    print("Plotcon is now doing the conservation plot...\n")
+    
+    # plot the level of conservation with output to screen
+    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
+    
+    # save as a svg file
+    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+    
+    print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.\n")
+    
     print(f"TODO plotcon {userquery}")
     print("TODO task2")
