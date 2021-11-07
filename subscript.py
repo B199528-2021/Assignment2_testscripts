@@ -231,7 +231,29 @@ def task2plotcon(userquery):
     print("Plotcon is now doing the conservation plot...\n")
     
     # plot the level of conservation with output to screen
-    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
+    ###subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
+    
+    # ask the user if he wants to save as svg, ps or both
+    while True:
+        saveplot = input("\nDo you want to save the plot as 'svg' or 'ps' file? If you want to save it as 'svg' AND 'ps', then type in 'both'.\n 'svg'/'ps'/'both' > ").lower()
+        while saveplot not in ("svg", "ps", "both"):
+            saveplot = input("Not valid input. Please type in SVG or PS or BOTH! > ").lower()
+        if saveplot == "svg":
+            subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+            print(f"Please find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.")
+            break
+        elif saveplot == "ps":
+            subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+            print(f"Please find the conservation plot in the folder 'output' with the name '{userquery}_plot.ps'.")
+            break
+        else:
+            subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+            subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+            print(f"Please find the conservation plot in the folder 'output' with the names '{userquery}_plot.svg' and '{userquery}_plot.ps'.")
+            break
+
+    print("\nfinished dfldkncaöodkaif")
+    exit()
     
     # save as a svg file
     subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
