@@ -1,17 +1,15 @@
 #!/usr/local/bin/python3
 
-# 1. stdlib
 import os
 import sys
 import subprocess
 import shutil
-# a very useful tool for navigating through paths
-from pathlib import Path
+from pathlib import Path # a very useful tool for navigating through paths
 
-# 2. 3rd party; e.g. numpy, scipy, matplotlib, ...
 import pandas as pd
+import numpy as np
 
-# 3. own package
+# my own packages - please find them in the script 'subscript.py'
 from subscript import task1
 from subscript import task2
 
