@@ -350,36 +350,36 @@ def task3scanwithmotifs(userquery):
         # run patmatmotifs for each file
         with open(f"output/seq_{count}.fasta") as eachseqfile:
             subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+        # for all patmatmotifs files
+        #TODO
     
-
-    
-    
-    print(headers)
     
     # for all patmatmotifs files
+    #for eachfile in 
     
-    
-    
-    # test for 1 patmatmotifs file first
-    patf = "seq_2.patmatmotifs" # seq
-    # extract HitCount
-    with open(f"./output/{patf}") as patfile:
-        patfile = patfile.readlines()
-    
-    # get hitcount and motifs from file 
-    hitcount = []
-    for line in patfile:
-        if "# HitCount: 0" == True:
-            hitcount.append("0")
-        else:
-            if line.startswith("# HitCount"):
-                hitcount.append(line)
-            # get motif from file
-            if line.startswith("Motif"):
-                hitcount.append(line)
+    def get_hitcount_motifs(patf):    
+        # test for 1 patmatmotifs file first
+        # patf = "seq_2.patmatmotifs" # seq
+        # extract HitCount
+        with open(f"./output/{patf}") as patfile:
+            patfile = patfile.readlines()
+        
+        # get hitcount and motifs from file 
+        hitcount = []
+        for line in patfile:
+            if "# HitCount: 0" == True:
+                hitcount.append("0")
+            else:
+                if line.startswith("# HitCount"):
+                    hitcount.append(line)
+                # get motif from file
+                if line.startswith("Motif"):
+                    hitcount.append(line)
+        return hitcount
     #print(hitcount)
     
-    
+    print(get_hitcount_motifs("seq_2.patmatmotifs"))
+
     
     
     
