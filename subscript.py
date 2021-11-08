@@ -330,6 +330,18 @@ def task3scanwithmotifs(userquery):
     
     
     
+    # loop through each sequence
+    for count,content in enumerate(fastalist):
+        # save into a file
+        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
+            # add ">" to header again
+            eachseqfile.write(f">{content}")
+        # run patmatmotifs for each file
+        with open(f"output/seq_{count}.fasta") as eachseqfile:
+            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+    
+    
+    
     exit()
     
     
@@ -337,8 +349,6 @@ def task3scanwithmotifs(userquery):
     # run patmatmotifs
     subprocess.call(f"patmatmotifs ./output/{userquery}_aligned_seqs.fasta ./output/{userquery}.patmatmotifs", shell=True)
     
-    # get the file in report format 
-    subprocess.call(f"patmatmotifs ./output/{userquery}_aligned_seqs.fasta ./output/{userquery}_report.patmatmotifs -rformat listfile", shell=True)
     
     
     print("TODO")
