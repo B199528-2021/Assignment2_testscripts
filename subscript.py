@@ -323,24 +323,48 @@ def task3scanwithmotifs(userquery):
         fullfastafile = fullfastafile.read()
     
     # delete first ">"
-    fullfastafile = fullfastafile[1:]
+    fastalist = fullfastafile[1:]
     
     # split the fasta sequences    
-    fastalist = fullfastafile.split(">")
+    fastalist = fastalist.split(">")
     
     
+    # TODO====================UNCOMMENT===================================
+    # # loop through each sequence
+    # for count,content in enumerate(fastalist):
+        # # save into a file
+        # with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
+            # # add ">" to header again
+            # eachseqfile.write(f">{content}")
+        # # run patmatmotifs for each file
+        # with open(f"output/seq_{count}.fasta") as eachseqfile:
+            # subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
     
-    # loop through each sequence
-    for count,content in enumerate(fastalist):
-        # save into a file
-        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
-            # add ">" to header again
-            eachseqfile.write(f">{content}")
-        # run patmatmotifs for each file
-        with open(f"output/seq_{count}.fasta") as eachseqfile:
-            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+    # extract the headerlines
+    with open(f"output/{userquery}.fasta") as fullfastafile:
+        fullfastafile = fullfastafile.readlines()
+    headers = []
+    for lines in fullfastafile:
+        if lines.startswith(">"):
+            headers.append(lines)
+    # delete "\n" from list elements
+    headers = [h.replace("\n","") for h in headers]
     
+    exit()
+    print(fullfastafile)
+    exit()
     
+    # test for 1 patmatmotifs file first
+    patf = "seq_1.patmatmotifs"
+    # extract HitCount
+    with open(f"./output/{patf}") as patfile:
+        patfile = patfile.readlines()
+    # create a motiflist
+    motiflist=[]
+    for line in patfile:
+        if line.startswith("# HitCount"):
+            
+            print(line)
     
     exit()
     
