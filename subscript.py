@@ -311,8 +311,36 @@ def task2plotcon(userquery):
     # return the variable "userquery", so that it can be used in the next task
     return userquery  
 
+    
 def task3scanwithmotifs(userquery):
-        
+    
+    print("Patmatmotifs is now reading your protein sequences and searches them against the PROSITE database of motifs...\n")
+    
+    # patmatmotifs scans only one protein sequence at a time, so the FASTA file needs to be split
+    # with open(f"./output/{userquery}.fasta") as fastafile
+    
+    with open(f"output/{userquery}.fasta") as fullfastafile:
+        fullfastafile = fullfastafile.read()
+    
+    # delete first ">"
+    fullfastafile = fullfastafile[1:]
+    
+    # split the fasta sequences    
+    fastalist = fullfastafile.split(">")
+    
+    
+    
+    exit()
+    
+    
+    
+    # run patmatmotifs
+    subprocess.call(f"patmatmotifs ./output/{userquery}_aligned_seqs.fasta ./output/{userquery}.patmatmotifs", shell=True)
+    
+    # get the file in report format 
+    subprocess.call(f"patmatmotifs ./output/{userquery}_aligned_seqs.fasta ./output/{userquery}_report.patmatmotifs -rformat listfile", shell=True)
+    
+    
     print("TODO")
     print(f"test{userquery}")
     
