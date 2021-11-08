@@ -348,25 +348,41 @@ def task3scanwithmotifs(userquery):
         if lines.startswith(">"):
             headers.append(lines)
     # delete "\n" from list elements
-    headers = [h.replace("\n","") for h in headers]
+    headers = [h.replace("\n","") for h in headers]     # list of headers
     
-    exit()
-    print(fullfastafile)
-    exit()
     
     # test for 1 patmatmotifs file first
-    patf = "seq_1.patmatmotifs"
+    patf = "seq_2.patmatmotifs"
     # extract HitCount
     with open(f"./output/{patf}") as patfile:
         patfile = patfile.readlines()
-    # create a motiflist
-    motiflist=[]
+    # create a list
+    LLL=[]
+
+    hitcount = []
     for line in patfile:
-        if line.startswith("# HitCount"):
-            
-            print(line)
-    
+        if "# HitCount: 0" == True:
+            hitcount.append("0")
+        else:
+            if line.startswith("# HitCount"):
+                hitcount.append(line)
+            if line.startswith("Motif"):
+                hitcount.append(line)
+    print(hitcount)
     exit()
+    
+    
+    # for index,line in enumerate(patfile):
+        # #motiflist.append(headers[index])
+        # #print(index, line)
+        # if line.startswith("# HitCount"):
+            # print(line)
+            # #motiflist.append(line[index])
+        # if line != "# HitCount: 0":
+            
+        
+    # #print(motiflist)
+    # exit()
     
     
     
