@@ -141,13 +141,13 @@ def task1():
     print("If you are not satisfied with this number, you can stop here and start again with a new query.")
 
     while True:
-        cont = input("Do you want to continue with this number of sequences? 'yes'/'no' > ")
-        while cont.lower() not in ("yes", "no"):
-            cont = input("Please type in 'yes' or 'no' > ")
-        if cont.lower() == "yes":
+        cont = input("Do you want to continue with this number of sequences? 'Yes'/'No' > ").lower()
+        while cont not in ("yes", "y", "no", "n"):
+            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
+        if cont == ("yes" or "y"):
             print("Okay, the sequences are now being downloaded...")
             break
-        elif cont.lower() == "no":
+        elif cont == ("no" or "n"):
             print("You have decided to stop and start again with a new query.")
             exit()
 
@@ -199,13 +199,13 @@ def task1():
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
 
     while True:
-        cont = input("Do you want to continue with these organisms? 'yes'/'no' > ")
-        while cont.lower() not in ("yes", "no"):
-            cont = input("Please type in 'yes' or 'no' > ")
-        if cont.lower() == "yes":
+        cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
+        while cont not in ("yes", "y", "no", "n"):
+            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
+        if cont == ("yes" or "y"):
             print("Okay, we continue with the current dataset...")
             break
-        elif cont.lower() == "no":
+        elif cont == ("no" or "n"):
             print("You have decided to stop and start again with a new query.")
             exit()
 
