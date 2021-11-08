@@ -231,7 +231,7 @@ def task2plotcon(userquery):
     print("Plotcon is now doing the conservation plot...\n")
     
     # plot the level of conservation with output to screen
-    ###subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
+    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
     
     # ask the user if he wants to save as svg, ps or both
     while True:
@@ -260,5 +260,5 @@ def task2plotcon(userquery):
     
     print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.\n")
     
-    print(f"TODO plotcon {userquery}")
-    print("TODO task2")
+    print(f"What is meant with 'determine' in task 2???")
+    print("ask Al")

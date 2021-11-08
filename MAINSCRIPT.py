@@ -11,10 +11,11 @@ import numpy as np
 
 # my own packages - please find them in the script 'subscript.py'
 from subscript import task1
-from subscript import task2
+from subscript import task2clustalo
+from subscript import task2plotcon
 
 
-print("This is your current path:")
+print("\nThis is your current path:")
 print(os.getcwd())
 print("")
 
@@ -23,14 +24,21 @@ Path("output").mkdir(exist_ok=True)
 
 print("Please find all your output data in the folder 'output'.\n")
 
-# delete: #=======================================TODO: uncomment!!!====================
 # return the userinput and save it into the variable "userquery"
-userquery = task1() # check user input
+#=======================================TODO: uncomment!!!====================
+#userquery = task1() # check user input
+
+#=======================================TODO: delete!!!====================
+userquery = "aves_glucose-6-phosphatase"
 
 # use the userinput in the next task
-task2(userquery) # conservation analysis plot
+#=======================================TODO: uncomment!!!====================
+#userquery = task2clustalo(userquery)
 
-print("FINISHED")
+# conservation analysis plot
+task2plotcon(userquery)
+
+print("END OF MAINSCRIPT.PY")
 
 exit()
 
