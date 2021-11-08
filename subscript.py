@@ -144,10 +144,10 @@ def task1():
         cont = input("Do you want to continue with this number of sequences? 'Yes'/'No' > ").lower()
         while cont not in ("yes", "y", "no", "n"):
             cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
-        if cont == ("yes" or "y"):
+        if cont == "yes" or cont == "y":
             print("Okay, the sequences are now being downloaded...")
             break
-        elif cont == ("no" or "n"):
+        elif cont == "no" or cont == "n":
             print("You have decided to stop and start again with a new query.")
             exit()
 
@@ -169,7 +169,12 @@ def task1():
     for lines in fullfastafile:
         if lines.startswith(">"):
             headers.append(lines)
-    #print(headers)
+    # let user know about headers
+    
+    
+    print(headers)
+
+    exit()
 
     # get the organisms of the headers
     organisms = []
@@ -194,22 +199,20 @@ def task1():
     print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.\n")
     df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}_organisms_count.csv", header=False)
 
-
     # ask the user if it is ok to continue
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
-
     while True:
         cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
         while cont not in ("yes", "y", "no", "n"):
             cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
-        if cont == ("yes" or "y"):
+        if cont == "yes" or cont == "y"::
             print("Okay, we continue with the current dataset...")
             break
-        elif cont == ("no" or "n"):
+        elif cont == "no" or cont == "n":
             print("You have decided to stop and start again with a new query.")
             exit()
-
-
+    
+    
     print("Checking user input finished.\n")
     
     # return the variable "userquery", so that it can be used in the next task
