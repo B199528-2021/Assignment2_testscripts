@@ -169,10 +169,15 @@ def task1():
     for lines in fullfastafile:
         if lines.startswith(">"):
             headers.append(lines)
-    # let user know about headers
+    # delete "\n" from list elements
+    headers = [h.replace("\n","") for h in headers]
+    print("\n".join(headers))   # show them to the user
     
     
-    print(headers)
+    
+    
+    
+    
 
     exit()
 
@@ -205,7 +210,7 @@ def task1():
         cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
         while cont not in ("yes", "y", "no", "n"):
             cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
-        if cont == "yes" or cont == "y"::
+        if cont == "yes" or cont == "y":
             print("Okay, we continue with the current dataset...")
             break
         elif cont == "no" or cont == "n":
