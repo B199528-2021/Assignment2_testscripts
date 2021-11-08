@@ -143,7 +143,7 @@ def task1():
     while True:
         cont = input("Do you want to continue with this number of sequences? 'Yes'/'No' > ").lower()
         while cont not in ("yes", "y", "no", "n"):
-            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
+            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ").lower()
         if cont == "yes" or cont == "y":
             print("Okay, the sequences are now being downloaded...")
             break
@@ -171,16 +171,42 @@ def task1():
             headers.append(lines)
     # delete "\n" from list elements
     headers = [h.replace("\n","") for h in headers]
+    print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
     
+    # ask user if he wants to delete the predicted sequences 
+    while True:
+        cont = input("\nDo you want to exclude the sequences with the word 'PREDICTED' in their title?\n'Yes' for 'exclude' / 'No' for 'include' > ").lower()
+        while cont not in ("yes", "y", "exclude", "no", "n", "include"):
+            cont = input("Please type in 'yes'/'y'/'exclude or 'no'/'n'/'include' > ").lower()
+        if cont == "yes" or cont == "y" or cont == "exclude":
+            print("Okay, the sequences with 'PREDICTED' are excluded.")
+            
+            both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL NOT PREDICTED'"
+            # check the number of hits
+            both_hits = count_nr_of_esearch_hits(both_query)
+            print(f"\nThe number of hits for {prot_fam.upper()} and {tax_group.upper()} without PREDICTED in the sequence is {both_hits}.\n")
+            
+            # set the minimum number of hits (a minimum of 2 is necessary for the multiple sequence alignment)
+            # set the maximum number of hits (there is a maximum of 4000 sequences for clustalo)
+            if both_hits < 2 or both_hits > 4000:
+                if both_hits < 2:
+                    print("A minimum of TWO sequences is required for multiple sequence alignment.")
+                if both_hits > 4000:
+                    print("The maximum number of 4000 sequences is allowed for the multiple sequence tool used in this script.")
+                print("Please start again with a query which outputs a valid number of sequences.")
+                exit()            
+            
+            break
+        elif cont == "no" or cont == "n" or cont == "include":
+            print("Okay, the sequences with 'PREDICTED' are included.")
+            break
+    
+    print("This is the result of your query:")
+    print("\n".join(headers))   # show them to the user
+    print(both_hits)
     
     
-    
-    
-    
-
-    exit()
-
     # get the organisms of the headers
     organisms = []
     for headerlines in headers:
@@ -209,7 +235,7 @@ def task1():
     while True:
         cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
         while cont not in ("yes", "y", "no", "n"):
-            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ")
+            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ").lower()
         if cont == "yes" or cont == "y":
             print("Okay, we continue with the current dataset...")
             break
@@ -263,10 +289,5 @@ def task2plotcon(userquery):
     print("\nfinished dfldkncaöodkaif")
     exit()
     
-    # save as a svg file
-    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
     
-    print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.\n")
     
-    print(f"What is meant with 'determine' in task 2???")
-    print("ask Al")
