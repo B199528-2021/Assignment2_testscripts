@@ -173,6 +173,7 @@ def task1():
     headers = [h.replace("\n","") for h in headers]
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
+    print(f"\nNumber of hits: {both_hits}")
     
     # ask user if he wants to delete the predicted sequences 
     while True:
@@ -197,14 +198,31 @@ def task1():
                 print("Please start again with a query which outputs a valid number of sequences.")
                 exit()            
             
+            print("The sequences are now being downloaded again...\n")
+            # download data with efetch again without predicted in title 
+            os.system(f"{both_query} | efetch -format fasta > ./output/{userquery}.fasta")
+            # let the user know that old version is overwritten
+            print(f"Please find the fasta file '{userquery}.fasta' in the folder 'output'. The old file was removed and replaced by this file.\n")
+            
+            # read line by line to find out the headers
+            with open(f"output/{userquery}.fasta") as fullfastafile:
+                fullfastafile = fullfastafile.readlines()
+            headers = []
+            for lines in fullfastafile:
+                if lines.startswith(">"):
+                    headers.append(lines)
+            # delete "\n" from list elements
+            headers = [h.replace("\n","") for h in headers]
+            
             break
         elif cont == "no" or cont == "n" or cont == "include":
             print("Okay, the sequences with 'PREDICTED' are included.")
             break
     
+
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
-    print(both_hits)
+    print(f"\nNumber of hits: {both_hits}")
     
     
     # get the organisms of the headers
@@ -221,10 +239,9 @@ def task1():
     df_organisms = pd.DataFrame (organisms, columns = ["organism"])
 
     # let the user know
-    print(f"{len(df_organisms['organism'].value_counts())} species are represented in the dataset.\n")
-
-    print("Here you can see a preview of all organisms and how often they are represented in the data.")
-    print("In the left column you can find the organisms and in the right column how often they are represented:")
+    print(f"\nNumber of organisms represented in the dataset: {len(df_organisms['organism'].value_counts())}.")
+    print("Here you can see a preview of all organisms and how often they are represented in the data.\
+    In the left column you can find the organisms and in the right column how often they are represented:")
     print(df_organisms["organism"].value_counts())
 
     print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.\n")
@@ -237,7 +254,7 @@ def task1():
         while cont not in ("yes", "y", "no", "n"):
             cont = input("Please type in 'yes'/'y' or 'no'/'n' > ").lower()
         if cont == "yes" or cont == "y":
-            print("Okay, we continue with the current dataset...")
+            print("Okay, we continue with the current dataset.")
             break
         elif cont == "no" or cont == "n":
             print("You have decided to stop and start again with a new query.")
@@ -257,8 +274,11 @@ def task2clustalo(userquery):
     # run clustalo via the shell to get aligned sequences
     subprocess.call(f"clustalo --infile ./output/{userquery}.fasta --outfile ./output/{userquery}_aligned_seqs.fasta -v --force", shell=True)
     
-    print(f"\nClustal Omega has finished. Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
+    print(f"\nClustal Omega has finished.\n")
+    print("Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
     
+    # return the variable "userquery", so that it can be used in the next task
+    return userquery 
 
 def task2plotcon(userquery):
     
@@ -274,20 +294,26 @@ def task2plotcon(userquery):
             saveplot = input("Not valid input. Please type in SVG or PS or BOTH! > ").lower()
         if saveplot == "svg":
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
-            print(f"Please find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.")
+            print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.")
             break
         elif saveplot == "ps":
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
-            print(f"Please find the conservation plot in the folder 'output' with the name '{userquery}_plot.ps'.")
+            print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.ps'.")
             break
         else:
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
-            print(f"Please find the conservation plot in the folder 'output' with the names '{userquery}_plot.svg' and '{userquery}_plot.ps'.")
+            print(f"\nPlease find the conservation plot in the folder 'output' with the names '{userquery}_plot.svg' and '{userquery}_plot.ps'.")
             break
 
-    print("\nfinished dfldkncaöodkaif")
-    exit()
+    print("\nConservation analysis plot finished.\n")
     
+    # return the variable "userquery", so that it can be used in the next task
+    return userquery  
+
+def task3scanwithmotifs(userquery):
+        
+    print("TODO")
+    print(f"test{userquery}")
     
     
