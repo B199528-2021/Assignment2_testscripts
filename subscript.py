@@ -329,17 +329,6 @@ def task3scanwithmotifs(userquery):
     fastalist = fastalist.split(">")
     
     
-    # TODO====================UNCOMMENT===================================
-    # # loop through each sequence
-    # for count,content in enumerate(fastalist):
-        # # save into a file
-        # with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
-            # # add ">" to header again
-            # eachseqfile.write(f">{content}")
-        # # run patmatmotifs for each file
-        # with open(f"output/seq_{count}.fasta") as eachseqfile:
-            # subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
-    
     # extract the headerlines
     with open(f"output/{userquery}.fasta") as fullfastafile:
         fullfastafile = fullfastafile.readlines()
@@ -349,16 +338,35 @@ def task3scanwithmotifs(userquery):
             headers.append(lines)
     # delete "\n" from list elements
     headers = [h.replace("\n","") for h in headers]     # list of headers
+
+    
+    #TODO====================UNCOMMENT===================================
+    # loop through each sequence
+    for count,content in enumerate(fastalist):
+        # save into a file
+        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
+            # add ">" to header again
+            eachseqfile.write(f">{content}")
+        # run patmatmotifs for each file
+        with open(f"output/seq_{count}.fasta") as eachseqfile:
+            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+    
+
+    
+    
+    print(headers)
+    
+    # for all patmatmotifs files
+    
     
     
     # test for 1 patmatmotifs file first
-    patf = "seq_2.patmatmotifs"
+    patf = "seq_2.patmatmotifs" # seq
     # extract HitCount
     with open(f"./output/{patf}") as patfile:
         patfile = patfile.readlines()
-    # create a list
-    LLL=[]
-
+    
+    # get hitcount and motifs from file 
     hitcount = []
     for line in patfile:
         if "# HitCount: 0" == True:
@@ -366,9 +374,16 @@ def task3scanwithmotifs(userquery):
         else:
             if line.startswith("# HitCount"):
                 hitcount.append(line)
+            # get motif from file
             if line.startswith("Motif"):
                 hitcount.append(line)
-    print(hitcount)
+    #print(hitcount)
+    
+    
+    
+    
+    
+    
     exit()
     
     
