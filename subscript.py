@@ -382,12 +382,20 @@ def task3scanwithmotifs(userquery):
     # convert into  dataframe for user
     df_motifs = pd.DataFrame(motifslist, columns = ["FASTA header", "motifs"])
     
-    
-    
     print(df_motifs)
     
-
+    # save as csv file and let user know
+    df_motifs.to_csv(f"./output/motifs_{userquery}.csv", index=False)
+    print(f"Please find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder output.")
     
+    
+    
+
+    # TODO:
+    # make csv file more beautiful
+    # move patmatmotifs files into a separate folder and let user know
+    # run plotcon with output file data --> numbers of conservation
+    # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
     
     
     
