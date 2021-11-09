@@ -340,23 +340,7 @@ def task3scanwithmotifs(userquery):
     headers = [h.replace("\n","") for h in headers]     # list of headers
 
     
-    #TODO====================UNCOMMENT===================================
-    # loop through each sequence
-    for count,content in enumerate(fastalist):
-        # save into a file
-        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
-            # add ">" to header again
-            eachseqfile.write(f">{content}")
-        # run patmatmotifs for each file
-        with open(f"output/seq_{count}.fasta") as eachseqfile:
-            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
-        # for all patmatmotifs files
-        #TODO
-    
-    
-    # for all patmatmotifs files
-    #for eachfile in 
-    
+
     def get_hitcount_motifs(patf):    
         # test for 1 patmatmotifs file first
         # patf = "seq_2.patmatmotifs" # seq
@@ -376,9 +360,30 @@ def task3scanwithmotifs(userquery):
                 if line.startswith("Motif"):
                     hitcount.append(line)
         return hitcount
+        
+    #TODO====================UNCOMMENT===================================
+    # loop through each sequence
+    motifslist = []
+    for count,content in enumerate(fastalist):
+        # save into a file
+        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
+            # add ">" to header again
+            eachseqfile.write(f">{content}")
+        # run patmatmotifs for each file
+        with open(f"output/seq_{count}.fasta") as eachseqfile:
+            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+        # for all patmatmotifs files 
+        # get header and use function get_hitcount_motifs 
+        motifslist.append((headers[count], get_hitcount_motifs(f"seq_{count}.patmatmotifs")))
+        #.append(get_hitcount_motifs(f"seq_{count}.patmatmotifs"))
+    
+    print(motifslist[0])
+    # for all patmatmotifs files
+    #for eachfile in 
+    
+
     #print(hitcount)
     
-    print(get_hitcount_motifs("seq_2.patmatmotifs"))
 
     
     
