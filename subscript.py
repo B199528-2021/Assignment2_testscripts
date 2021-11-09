@@ -352,13 +352,13 @@ def task3scanwithmotifs(userquery):
         hitcount = []
         for line in patfile:
             if "# HitCount: 0" == True:
-                hitcount.append("0")
+                hitcount.append("HitCount: 0")
             else:
                 if line.startswith("# HitCount"):
-                    hitcount.append(line)
+                    hitcount.append(line.rstrip().replace("# ",""))
                 # get motif from file
                 if line.startswith("Motif"):
-                    hitcount.append(line)
+                    hitcount.append(line.rstrip())
         return hitcount
         
     #TODO====================UNCOMMENT===================================
