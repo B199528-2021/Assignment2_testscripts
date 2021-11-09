@@ -377,12 +377,14 @@ def task3scanwithmotifs(userquery):
         motifslist.append((headers[count], get_hitcount_motifs(f"seq_{count}.patmatmotifs")))
         #.append(get_hitcount_motifs(f"seq_{count}.patmatmotifs"))
     
-    print(motifslist[0])
-    # for all patmatmotifs files
-    #for eachfile in 
+    #print(motifslist[0])
     
-
-    #print(hitcount)
+    # convert into  dataframe for user
+    df_motifs = pd.DataFrame(motifslist, columns = ["FASTA header", "motifs"])
+    
+    
+    
+    print(df_motifs)
     
 
     
@@ -392,17 +394,7 @@ def task3scanwithmotifs(userquery):
     exit()
     
     
-    # for index,line in enumerate(patfile):
-        # #motiflist.append(headers[index])
-        # #print(index, line)
-        # if line.startswith("# HitCount"):
-            # print(line)
-            # #motiflist.append(line[index])
-        # if line != "# HitCount: 0":
-            
-        
-    # #print(motiflist)
-    # exit()
+
     
     
     
