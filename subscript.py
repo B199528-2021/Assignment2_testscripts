@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import shutil
+import glob
 from pathlib import Path # a very useful tool for navigating through paths
 
 import pandas as pd
@@ -151,8 +152,8 @@ def task1():
             print("You have decided to stop and start again with a new query.")
             exit()
 
-    # save file in variable
-    userquery = f"{tax_group.lower().replace(' ', '')}_{prot_fam.lower().replace(' ', '')}"
+    # save file in variable and replace special characters
+    userquery = f"{tax_group.lower().replace(' ', '_').replace('-', '_')}_{prot_fam.lower().replace(' ', '_').replace('-', '_')}"
 
     # download the data with efetch 
     os.system(
@@ -386,9 +387,23 @@ def task3scanwithmotifs(userquery):
     
     # save as csv file and let user know
     df_motifs.to_csv(f"./output/motifs_{userquery}.csv", index=False)
-    print(f"Please find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder output.")
+    print(f"Please find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder 'output'.")
+    
+    # move seq data into subfolder and tell user
+    source = f"./output/seq_*"
+    destination = f"./output/{userquery}_patmatmotifs"
+    for file in glob.glob(source):
+        shutil.move(file, destination)    
+    print(f"Please find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}'.")
+
+    print("Finished moved files.")
+    
+    exit()
+    
+
     
     
+
     
 
     # TODO:
@@ -399,7 +414,7 @@ def task3scanwithmotifs(userquery):
     
     
     
-    exit()
+    
     
     
 
