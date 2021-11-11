@@ -26,25 +26,22 @@ Path("output").mkdir(exist_ok=True)
 print("Please find all your output data in the folder 'output'.\n")
 
 # return the userinput and save it into the variable "userquery"
-#userquery = task1() # check user input
+userquery = task1() # check user input
 
 #=======================================TODO: delete!!!====================
-userquery = "aves_glucose_6_phosphatase"
+#userquery = "aves_glucose_6_phosphatase"
 
 # use the userinput in the next task
-#userquery = task2clustalo(userquery)
+userquery = task2clustalo(userquery)
 
 # conservation analysis plot
-#userquery = task2plotcon(userquery)
+userquery = task2plotcon(userquery)
 
 # compare with PROSITE database
-# create a subfolder for the patmatmotif files
+# create a subfolder for the patmatmotif files #TODO ERROR???
 Path(f"output/{userquery}_patmatmotifs").mkdir(parents=True, exist_ok=True)
 
-
-#Path(f"output/{userquery}_patmatmotifs").mkdir(parents=True, exist_ok=True)
-
-exit()
+# scan with motifs from PROSITE database 
 task3scanwithmotifs(userquery)
 
 print("END OF MAINSCRIPT.PY")

@@ -328,7 +328,7 @@ def task2clustalo(userquery):
 
 def task2plotcon(userquery):
     
-    print("Plotcon is now doing the conservation plot...\n")
+    print("\nPlotcon is now doing the conservation plot...\n")
     
     # plot the level of conservation with output to screen
     subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph x11 -verbose", shell=True)
@@ -336,13 +336,14 @@ def task2plotcon(userquery):
     # ask the user if he wants to save as svg, ps or both
     while True:
         saveplot = input("\nDo you want to save the plot as 'svg' or 'ps' file? If you want to save it as 'svg' AND 'ps', then type in 'both'.\n 'svg'/'ps'/'both' > ").lower()
-        while saveplot not in ("svg", "ps", "both"):
-            saveplot = input("Not valid input. Please type in SVG or PS or BOTH! > ").lower()
+        if saveplot not in ("svg", "ps", "both"):
+            print("Not valid format. Please type in SVG or PS or BOTH!")
+            continue
         if saveplot == "svg":
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph svg -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
             print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.svg'.")
             break
-        elif saveplot == "ps":
+        if saveplot == "ps":
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
             print(f"\nPlease find the conservation plot in the folder 'output' with the name '{userquery}_plot.ps'.")
             break
@@ -360,7 +361,7 @@ def task2plotcon(userquery):
     
 def task3scanwithmotifs(userquery):
     
-    print("Patmatmotifs is now reading your protein sequences and searches them against the PROSITE database of motifs...\n")
+    print("\nPatmatmotifs is now reading your protein sequences and searches them against the PROSITE database of motifs...\n")
     
     # patmatmotifs scans only one protein sequence at a time, so the FASTA file needs to be split
     # with open(f"./output/{userquery}.fasta") as fastafile
@@ -370,10 +371,8 @@ def task3scanwithmotifs(userquery):
     
     # delete first ">"
     fastalist = fullfastafile[1:]
-    
     # split the fasta sequences    
     fastalist = fastalist.split(">")
-    
     
     # extract the headerlines
     with open(f"output/{userquery}.fasta") as fullfastafile:
@@ -407,7 +406,6 @@ def task3scanwithmotifs(userquery):
                     hitcount.append(line.rstrip())
         return hitcount
         
-    #TODO====================UNCOMMENT===================================
     # loop through each sequence
     motifslist = []
     for count,content in enumerate(fastalist):
@@ -421,7 +419,6 @@ def task3scanwithmotifs(userquery):
         # for all patmatmotifs files 
         # get header and use function get_hitcount_motifs 
         motifslist.append((headers[count], get_hitcount_motifs(f"seq_{count}.patmatmotifs")))
-        #.append(get_hitcount_motifs(f"seq_{count}.patmatmotifs"))
     
     #print(motifslist[0])
     
@@ -437,16 +434,16 @@ def task3scanwithmotifs(userquery):
     # move seq data into subfolder and tell user
     source = f"./output/seq_*"
     destination = f"./output/{userquery}_patmatmotifs"
+    # delete folder if already exists               # TODO still ERROR
+    shutil.rmtree(destination, ignore_errors=True)  # TODO still ERROR
+    # move to folder and tell user
     for file in glob.glob(source):
-        shutil.move(file, destination)    
+        shutil.move(file, destination)
     print(f"Please find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}'.")
 
     print("Finished moved files.")
     
     exit()
-    
-
-    
     
 
     
@@ -458,11 +455,6 @@ def task3scanwithmotifs(userquery):
     # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
     
     
-    
-    
-    
-    
-
     
     
     
