@@ -98,15 +98,17 @@ def task1():
         # check if input is too small or too large
         if (len(prot_fam) < 2) or (len(prot_fam) > 30):
             if len(prot_fam) < 2:
-                print("Can a protein family consist of one word only? Please try again.")
+                print(f"{len(prot_fam)} is the length of your input.")
+                print("Can a protein family consist of one letter only? Please try again.")
             else:
+                print(f"{len(prot_fam)} is the length of your input.")
                 print("Maybe you have misread, do not paste in a sequence or so. Please just type in the protein family.")
             continue
         # check if more than 2 spaces side by side in input:
         if (len(prot_fam) - len(prot_fam.lstrip(' '))) >= 2:
             print("You may have mistyped. Please try again.")
             continue
-        okay = input(f"Are you sure that you want to search for the protein family '{prot_fam}'? 'Yes'/'No' > ")
+        okay = input(f"Are you sure that you want to search for the protein family '{prot_fam}'? 'Yes'/'No' > ").lower()
         if (okay != "yes") and (okay != "y"):
             continue
         
@@ -122,58 +124,71 @@ def task1():
             print("Please try again.")
             continue
                 
+        print(f"{prot_fam_hits} is the number of hits for the protein family '{prot_fam}'.\n")
+        okay = input(f"Do you want to continue? 'Yes'/'No' > ").lower()
+        if (okay != "yes") and (okay != "y"):
+            continue
+        
         break
     
-    print(f"{prot_fam_hits} is the number of hits for the protein family '{prot_fam}'.\n")
     
-    exit()
-
-    
-    
-    
-    
-    
-    #print(prot_fam)
-
-    # # search the query separately without partial sequences
-    # prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
-    # # check the number of hits 
-    # prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
-
-    # # repeat user input as long as the number of hits is not at least 2 (needed for clustalo)
-    # while prot_fam_hits < 2:
-        # print(f"Number of hits:{prot_fam_hits}")
-        # print(f"\nYou have probably mistyped the protein family, because there are either no or not enough hits.")
-        # prot_fam = input("Please try again. Type in the PROTEIN FAMILY:\n")
-        # prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
-        # prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
-
-    
-    
-    # exit()
     
     #------------------taxonomic group---------------------
 
     # go on with taxonomic group
     print("Please enter the taxonomic group now.")
-    tax_group = input("Taxonomic group:\n").lower()
-
-    # search the query separately without partial sequences
-    tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
-    # check the number of hits 
-    tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
-
-    # repeat user input as long as the number of hits is not at least 2 (needed for clustalo)
-    while tax_group_hits < 2:
-        print(f"Number of hits:{tax_group_hits}")
-        print(f"\nYou have probably mistyped the taxonomic group, because there are either no or not enough hits.")
-        tax_group = input("Please try again. Type in a valid TAXONOMIC GROUP:\n")
+    
+    # error traps:
+    invalid = True
+    while invalid:
+        tax_group = input("\nTaxonomic group:\n").lower()
+        # don't allow apostroph or quotation marks, as they could end the string
+        tax_group = tax_group.replace("'"," ")
+        tax_group = tax_group.replace('"',' ')
+        # check if input is empty
+        if not tax_group:
+            print("Please type in a valid taxonomic group!")
+            continue
+        # check if input is too small or too large
+        if (len(tax_group) < 2) or (len(tax_group) > 30):
+            if len(tax_group) < 2:
+                print(f"{len(tax_group)} is the length of your input.")
+                print("Can a taxonomic group consist of one letter only? Please try again.")
+            else:
+                print(f"{len(tax_group)} is the length of your input.")
+                print("Maybe you have misread, do not paste in a sequence or so. Please just type in the taxonomic group.")
+            continue
+        # check if more than 2 spaces side by side in input:
+        if (len(tax_group) - len(tax_group.lstrip(' '))) >= 2:
+            print("You may have mistyped. Please try again.")
+            continue
+        okay = input(f"Are you sure that you want to search for the taxonomic group '{tax_group}'? 'Yes'/'No' > ").lower()
+        if (okay != "yes") and (okay != "y"):
+            continue
+        
+        # search the query separately without partial sequences
         tax_group_query = f"esearch -db protein -query '{tax_group}[ORGN] NOT PARTIAL'"
+        # check the number of hits
         tax_group_hits = count_nr_of_esearch_hits(tax_group_query)
+        
+        # don't allow an input which has less than 2 hits (needed for clustalo)
+        if tax_group_hits < 2:
+            print(f"Number of hits:{tax_group_hits}")
+            print("You have probably mistyped the taxonomic group because you have not enough hits for the analysis.")
+            print("Please try again.")
+            continue
+                
+        print(f"{tax_group_hits} is the number of hits for the taxonomic group '{tax_group}'.\n")
+        okay = input(f"Do you want to continue? 'Yes'/'No' > ").lower()
+        if (okay != "yes") and (okay != "y"):
+            continue
+        
+        break    
+    
+    exit()
+    
 
-    print(f"The number of hits is {tax_group_hits}.")
-    print(f"Your chosen taxonomic group is '{tax_group}'.\n")
-
+    #------------------combination of both---------------------
 
     # now check both (prot_fam & tax_group) in combination
     both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL'"
