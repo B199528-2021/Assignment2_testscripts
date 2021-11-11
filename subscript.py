@@ -253,7 +253,6 @@ def task1():
                     headers.append(lines)
             # delete "\n" from list elements
             headers = [h.replace("\n","") for h in headers]
-            
             break
         if cont in ("no", "n", "include"):
             print("Okay, the sequences with 'PREDICTED' are included.")
@@ -294,19 +293,21 @@ def task1():
     
     # ask the user if it is ok to continue
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
-    while True:
+    invalid = True
+    while invalid:
         cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
-        while cont not in ("yes", "y", "no", "n"):
-            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ").lower()
-        if cont == "yes" or cont == "y":
+        if cont not in ("yes", "y", "no", "n"):
+            print("Please try again.")
+            continue
+        if cont in ("yes", "y"):
             print("Okay, we continue with the current dataset.")
             break
-        elif cont == "no" or cont == "n":
+        if cont in ("no", "n"):
             print("You have decided to stop and start again with a new query.")
             exit()
     
     
-    print("Checking user input finished.\n")
+    print("\nChecking user input finished.\n")
     
     # return the variable "userquery", so that it can be used in the next task
     return userquery
