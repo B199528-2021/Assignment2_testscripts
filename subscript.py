@@ -82,8 +82,39 @@ def task1():
     
     # save user input into variables
     print("Please enter first the protein family and then the taxonomic group.")
-    prot_fam = input("Protein family:\n").lower()
+    #prot_fam = input("Protein family:\n").lower()
 
+    # error traps:
+    while True:
+        try:
+            prot_fam = input("Protein family:\n").lower()
+            # check if input is empty
+            if not prot_fam:
+                raise ValueError
+            # check if input is too small or too large
+            if (len(prot_fam) < 3) or (len(prot_fam) > 30):
+                raise ValueError
+            # check if more than 2 spaces side by side in input:
+            if (len(prot_fam) - len(prot_fam.lstrip(' '))) >= 2:
+                raise ValueError
+        except ValueError:
+            print("Please type in a valid protein family!")
+            continue
+        break
+
+    # don't allow apostroph or quotation marks, as they could end the string
+    if prot_fam.count("'") >= 1:
+        prot_fam = prot_fam.replace("'","")
+    if prot_fam.count('"') >= 1:
+        prot_fam = prot_fam.replace('"','')
+
+    print(prot_fam)
+    
+    exit()
+
+
+
+    
     # search the query separately without partial sequences
     prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT] NOT PARTIAL'"
     # check the number of hits 
