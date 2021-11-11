@@ -13,6 +13,7 @@ import numpy as np
 from subscript import task1
 from subscript import task2clustalo
 from subscript import task2plotcon
+from subscript import task3scanwithmotifs
 
 
 print("\nThis is your current path:")
@@ -25,18 +26,26 @@ Path("output").mkdir(exist_ok=True)
 print("Please find all your output data in the folder 'output'.\n")
 
 # return the userinput and save it into the variable "userquery"
-#=======================================TODO: uncomment!!!====================
 #userquery = task1() # check user input
 
 #=======================================TODO: delete!!!====================
-userquery = "aves_glucose-6-phosphatase"
+userquery = "aves_glucose_6_phosphatase"
 
 # use the userinput in the next task
-#=======================================TODO: uncomment!!!====================
 #userquery = task2clustalo(userquery)
 
 # conservation analysis plot
-task2plotcon(userquery)
+#userquery = task2plotcon(userquery)
+
+# compare with PROSITE database
+# create a subfolder for the patmatmotif files
+Path(f"output/{userquery}_patmatmotifs").mkdir(parents=True, exist_ok=True)
+
+
+#Path(f"output/{userquery}_patmatmotifs").mkdir(parents=True, exist_ok=True)
+
+exit()
+task3scanwithmotifs(userquery)
 
 print("END OF MAINSCRIPT.PY")
 
