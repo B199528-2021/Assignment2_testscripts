@@ -183,22 +183,21 @@ def task1():
         else:
             print("You have decided to stop and start this programme again with a new query.")
             exit()
-
-    exit()
-
+    
+    
+    #------------------save file---------------------
+    
     # save file in variable and replace special characters
-    userquery = f"{tax_group.lower().replace(' ', '_').replace('-', '_')}_{prot_fam.lower().replace(' ', '_').replace('-', '_')}"
+    userquery_replaced = f"{tax_group.lower().replace(' ', '_').replace('-', '_')}_{prot_fam.lower().replace(' ', '_').replace('-', '_')}"
 
     # download the data with efetch 
-    os.system(
-    f"{both_query} | efetch -format fasta > ./output/{userquery}.fasta"
-    )
+    os.system(f"{both_query} | efetch -format fasta > ./output/{userquery_replaced}.fasta")
 
     # the full file
-    print(f"Please find the fasta file '{userquery}.fasta' in the folder 'output'.\n")
+    print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'.\n")
 
     # read line by line to find out the headers
-    with open(f"output/{userquery}.fasta") as fullfastafile:
+    with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
         fullfastafile = fullfastafile.readlines()
     headers = []
     for lines in fullfastafile:
@@ -211,11 +210,13 @@ def task1():
     print(f"\nNumber of hits: {both_hits}")
     
     # ask user if he wants to delete the predicted sequences 
-    while True:
+    invalid = True
+    while invalid:
         cont = input("\nDo you want to exclude the sequences with the word 'PREDICTED' in their title?\n'Yes' for 'exclude' / 'No' for 'include' > ").lower()
-        while cont not in ("yes", "y", "exclude", "no", "n", "include"):
-            cont = input("Please type in 'yes'/'y'/'exclude or 'no'/'n'/'include' > ").lower()
-        if cont == "yes" or cont == "y" or cont == "exclude":
+        if cont not in ("yes", "y", "exclude", "no", "n", "include"):
+            print("Please try again.")
+            continue
+        if cont in ("yes", "y", "exclude"):
             print("Okay, the sequences with 'PREDICTED' are excluded.")
             
             both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL NOT PREDICTED'"
@@ -232,15 +233,19 @@ def task1():
                     print("The maximum number of 4000 sequences is allowed for the multiple sequence tool used in this script.")
                 print("Please start again with a query which outputs a valid number of sequences.")
                 exit()            
-            
+           
             print("The sequences are now being downloaded again...\n")
+            
+            # save file in variable and replace special characters
+            userquery_replaced = f"{tax_group.lower().replace(' ', '_').replace('-', '_')}_{prot_fam.lower().replace(' ', '_').replace('-', '_')}"
+            
             # download data with efetch again without predicted in title 
-            os.system(f"{both_query} | efetch -format fasta > ./output/{userquery}.fasta")
+            os.system(f"{both_query} | efetch -format fasta > ./output/{userquery_replaced}.fasta")
             # let the user know that old version is overwritten
-            print(f"Please find the fasta file '{userquery}.fasta' in the folder 'output'. The old file was removed and replaced by this file.\n")
+            print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'. The old file was removed and replaced by this file.\n")
             
             # read line by line to find out the headers
-            with open(f"output/{userquery}.fasta") as fullfastafile:
+            with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
                 fullfastafile = fullfastafile.readlines()
             headers = []
             for lines in fullfastafile:
@@ -250,16 +255,19 @@ def task1():
             headers = [h.replace("\n","") for h in headers]
             
             break
-        elif cont == "no" or cont == "n" or cont == "include":
+        if cont in ("no", "n", "include"):
             print("Okay, the sequences with 'PREDICTED' are included.")
             break
     
+    userquery = userquery_replaced
     
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
     print(f"\nNumber of hits: {both_hits}")
     
     
+    #------------------get organisms---------------------
+        
     # get the organisms of the headers
     organisms = []
     for headerlines in headers:
