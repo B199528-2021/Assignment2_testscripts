@@ -11,44 +11,6 @@ import numpy as np
 
 def task1():
 
-    # # test the query with test set 
-    # os.system(
-    # "esearch -db protein -query 'glucose-6-phosphatase[PROT] AND aves[ORGN]' | efetch -format fasta > ./efetch/testset.fasta"
-    # )
-
-    # # save user input into variables
-    # print("Please enter first the protein family and then the taxonomic group.")
-    # prot_fam = input("Protein family:\n")
-
-    # check if there are any hits
-
-    # # test without function
-    # prot_fam_query = f"esearch -db protein -query '{prot_fam}[PROT]'"
-    # os.system(
-    # f"{prot_fam_query} > esearchprotfam.txt"
-    # )
-    # with open("esearchprotfam.txt") as testprotfam:
-        # testprotfam = testprotfam.read()
-    # # split the esearch result
-    # templist = testprotfam.split()
-    # # pick the line with the number of hits ("Count")
-    # countnumber = []
-    # for templistelement in templist:
-        # if templistelement.startswith("<Count>"):
-            # countnumber.append(templistelement)
-    # # pick it as a string (instead of a list)
-    # countnumber = countnumber[0]
-    # # delete "Count" and brackets
-    # countnumber = countnumber.replace("<Count>", "")
-    # countnumber = countnumber.replace("</Count>", "")
-    # # convert to integer
-    # countnumber = int(countnumber)
-    # # delete textfile
-    # os.remove("esearchprotfam.txt")
-    # # print(type(countnumber))
-    # print(countnumber)
-
-    # write it into a function
 
     def count_nr_of_esearch_hits(query):
         """
