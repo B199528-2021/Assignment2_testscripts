@@ -220,7 +220,7 @@ def task1():
             print("Okay, the sequences with 'PREDICTED' are included.")
             break
     
-
+    
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
     print(f"\nNumber of hits: {both_hits}")
@@ -232,10 +232,11 @@ def task1():
         # delete the first part before the bracket
         oneorganism = headerlines.split("[")[1]
         # delete the other part after the bracket
-        oneorganism = oneorganism.replace("]\n", "")
+        oneorganism = oneorganism.replace("]", "")
         organisms.append(oneorganism)
     #print(organisms)
-
+    
+    
     # get the number of each organism
     df_organisms = pd.DataFrame (organisms, columns = ["organism"])
 
@@ -247,7 +248,8 @@ def task1():
 
     print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.\n")
     df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}_organisms_count.csv", header=False)
-
+    
+    
     # ask the user if it is ok to continue
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
     while True:
@@ -276,7 +278,7 @@ def task2clustalo(userquery):
     subprocess.call(f"clustalo --infile ./output/{userquery}.fasta --outfile ./output/{userquery}_aligned_seqs.fasta -v --force", shell=True)
     
     print(f"\nClustal Omega has finished.\n")
-    print("Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
+    print(f"Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
     
     # return the variable "userquery", so that it can be used in the next task
     return userquery 
