@@ -44,7 +44,6 @@ def task1():
     
     # save user input into variables
     print("Please enter first the protein family and then the taxonomic group.")
-    #prot_fam = input("Protein family:\n").lower()
 
     # error traps:
     invalid = True
@@ -88,7 +87,7 @@ def task1():
                 
         print(f"{prot_fam_hits} is the number of hits for the protein family '{prot_fam}'.\n")
         okay = input(f"Do you want to continue? 'Yes'/'No' > ").lower()
-        if (okay != "yes") and (okay != "y"):
+        if okay not in ("yes", "y"):
             continue
         
         break
@@ -142,12 +141,11 @@ def task1():
                 
         print(f"{tax_group_hits} is the number of hits for the taxonomic group '{tax_group}'.\n")
         okay = input(f"Do you want to continue? 'Yes'/'No' > ").lower()
-        if (okay != "yes") and (okay != "y"):
+        if okay not in ("yes", "y"):
             continue
         
         break    
     
-    exit()
     
 
     #------------------combination of both---------------------
@@ -170,17 +168,23 @@ def task1():
 
     # ask the user if it is ok to continue
     print("If you are not satisfied with this number, you can stop here and start again with a new query.")
+    print("Do you want to continue with this number of sequences?")
+    print("Please be aware: If you say 'No', you will have to start the whole query again!")
 
-    while True:
-        cont = input("Do you want to continue with this number of sequences? 'Yes'/'No' > ").lower()
-        while cont not in ("yes", "y", "no", "n"):
-            cont = input("Please type in 'yes'/'y' or 'no'/'n' > ").lower()
-        if cont == "yes" or cont == "y":
+    invalid = True
+    while invalid:
+        cont = input("Please in 'Yes' to continue (or 'No' if you want to start again). 'Yes'/'No' > ").lower()
+        if cont not in ("yes", "y", "no", "n"):
+            print("Please try again.")
+            continue
+        if cont in ("yes", "y"):
             print("Okay, the sequences are now being downloaded...")
             break
-        elif cont == "no" or cont == "n":
-            print("You have decided to stop and start again with a new query.")
+        else:
+            print("You have decided to stop and start this programme again with a new query.")
             exit()
+
+    exit()
 
     # save file in variable and replace special characters
     userquery = f"{tax_group.lower().replace(' ', '_').replace('-', '_')}_{prot_fam.lower().replace(' ', '_').replace('-', '_')}"
