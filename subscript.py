@@ -85,35 +85,29 @@ def task1():
     #prot_fam = input("Protein family:\n").lower()
 
     # error traps:
-    
-    while True:
-        try:
-            prot_fam = input("\nProtein family:\n").lower()
-            # don't allow apostroph or quotation marks, as they could end the string
-            prot_fam = prot_fam.replace("'"," ")
-            prot_fam = prot_fam.replace('"',' ')
-            # check if input is empty
-            if not prot_fam:
-                print("Please type in a valid protein family!")
-                raise ValueError
-            # check if input is too small or too large
-            if (len(prot_fam) < 2) or (len(prot_fam) > 30):
-                if len(prot_fam) < 2:
-                    print("Can a protein family consist of one word only? Please try again.")
-                else:
-                    print("Maybe you have misread, do not paste in a sequence or so. Please just type in the protein family.")
-                raise ValueError
-            # check if more than 2 spaces side by side in input:
-            if (len(prot_fam) - len(prot_fam.lstrip(' '))) >= 2:
-                print("You may have mistyped. Please try again.")
-                raise ValueError
-        
-            okay = input(f"Are you sure that you want to search for the protein family '{prot_fam}'? 'Yes'/'No' > ")
-            if (okay != "yes") and (okay != "y"):
-                raise ValueError
-        
-        # continue loop
-        except ValueError:
+    invalid = True
+    while invalid:
+        prot_fam = input("\nProtein family:\n").lower()
+        # don't allow apostroph or quotation marks, as they could end the string
+        prot_fam = prot_fam.replace("'"," ")
+        prot_fam = prot_fam.replace('"',' ')
+        # check if input is empty
+        if not prot_fam:
+            print("Please type in a valid protein family!")
+            continue
+        # check if input is too small or too large
+        if (len(prot_fam) < 2) or (len(prot_fam) > 30):
+            if len(prot_fam) < 2:
+                print("Can a protein family consist of one word only? Please try again.")
+            else:
+                print("Maybe you have misread, do not paste in a sequence or so. Please just type in the protein family.")
+            continue
+        # check if more than 2 spaces side by side in input:
+        if (len(prot_fam) - len(prot_fam.lstrip(' '))) >= 2:
+            print("You may have mistyped. Please try again.")
+            continue
+        okay = input(f"Are you sure that you want to search for the protein family '{prot_fam}'? 'Yes'/'No' > ")
+        if (okay != "yes") and (okay != "y"):
             continue
         
         # search the query separately without partial sequences
@@ -122,17 +116,12 @@ def task1():
         prot_fam_hits = count_nr_of_esearch_hits(prot_fam_query)
         
         # don't allow an input which has less than 2 hits (needed for clustalo)
-        try:
-            if prot_fam_hits < 2:
-                print(f"Number of hits:{prot_fam_hits}")
-                print("You have probably mistyped the protein family because you have not enough hits for the analysis.")
-                print("Please try again.")
-                raise ValueError
-        
-        # continue loop
-        except ValueError:
+        if prot_fam_hits < 2:
+            print(f"Number of hits:{prot_fam_hits}")
+            print("You have probably mistyped the protein family because you have not enough hits for the analysis.")
+            print("Please try again.")
             continue
-            
+                
         break
     
     print(f"{prot_fam_hits} is the number of hits for the protein family '{prot_fam}'.\n")
