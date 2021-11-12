@@ -444,8 +444,7 @@ def task3scanwithmotifs(userquery):
         return acc_list
     # test function
     accessions = get_acc(headers)
-    print(accessions)
-    exit()
+    #print(accessions)
     
     def get_organisms(fastaheaderfile):
         """
@@ -466,6 +465,9 @@ def task3scanwithmotifs(userquery):
             oneorganism = oneorganism.replace("]", "")
             organisms.append(oneorganism) 
         return organisms
+    # test function
+    organisms = get_organisms(headers)
+    # print(organisms)
     
     def extract_hitcount(patmatfile):   
         """
@@ -491,9 +493,11 @@ def task3scanwithmotifs(userquery):
                     if line[index].isdigit():
                         # return the digit
                         return line[index]
-    # # test the function
-    # hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
-    # print(hitcount)
+    # test the function
+    #hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
+    #print(hitcount)
+    #hitcount = extract_hitcount(f"./output/seq_24.patmatmotifs")
+    #print(hitcount)
     
     def extract_motifs(patmatfile):   
         """
@@ -520,29 +524,31 @@ def task3scanwithmotifs(userquery):
                 # append to list without "\n" in list element
                 motiflist.append(motifline.rstrip())
         return motiflist
-    # # test the function
-    # motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
-    # print(motifs)
+    # test the function
+    #motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
+    #print(motifs)
+    
+    
     
     
     # try out a dict
-    #data = {}
-    # loop through each sequence
+    data = {}
+    # put accession numbers in dict
+    data["accession_number"] = accessions
+    # put organisms in dict
+    data["organism"] = organisms
+    
+    # loop through each sequences of fastafile
+    
+    
+    print(data)
     
     
     
-    
-    # use functions
-    
-    organisms = get_organisms(headers)
-    hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
-    motifs = extract_motifs(f"./output/seq_0.patmatmotifs")
     
     print("\nTHIS IS A TEST\n")
     
     print(fastalist[0])
-    
-    print(fastalist[1])
     
     exit()
         
