@@ -195,16 +195,43 @@ def task1():
 
     # the full file
     print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'.\n")
-
-    # read line by line to find out the headers
-    with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
-        fullfastafile = fullfastafile.readlines()
-    headers = []
-    for lines in fullfastafile:
-        if lines.startswith(">"):
-            headers.append(lines)
-    # delete "\n" from list elements
-    headers = [h.replace("\n","") for h in headers]
+    
+    def find_headers(fastafile):
+        """
+        Reads a text file line by line to find out the headers.
+        Returns the header of a FASTA file.
+        
+        Parameters:
+        -----------
+        
+        fastafile : string
+        """
+        with open(fastafile) as fullfastafile:
+            fullfastafile = fullfastafile.readlines()
+        headers = []
+        for lines in fullfastafile:
+            if lines.startswith(">"):
+                headers.append(lines)
+        # delete "\n" from list elements
+        headers = [h.replace("\n","") for h in headers]
+        return headers
+    
+    # # test function
+    # print(find_headers(f"output/{userquery_replaced}.fasta"))
+    
+    # This can be deleted:
+    # # read line by line to find out the headers
+    # with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
+        # fullfastafile = fullfastafile.readlines()
+    # headers = []
+    # for lines in fullfastafile:
+        # if lines.startswith(">"):
+            # headers.append(lines)
+    # # delete "\n" from list elements
+    # headers = [h.replace("\n","") for h in headers]
+    
+    headers = find_headers(f"output/{userquery_replaced}.fasta")
+    
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
     print(f"\nNumber of hits: {both_hits}")
@@ -388,7 +415,7 @@ def task3scanwithmotifs(userquery):
 
     def get_hitcount_motifs(patf):    
         # test for 1 patmatmotifs file first
-        # patf = "seq_2.patmatmotifs" # seq
+        # patf = "seq_2.patmatmotifs"
         # extract HitCount
         with open(f"./output/{patf}") as patfile:
             patfile = patfile.readlines()
@@ -405,6 +432,17 @@ def task3scanwithmotifs(userquery):
                 if line.startswith("Motif"):
                     hitcount.append(line.rstrip())
         return hitcount
+
+    print("\nTHIS IS A TEST\n")
+    
+    print(fastalist[0])
+    
+    # try out a dict
+    #data = {}
+    
+    
+    
+    exit()
         
     # loop through each sequence
     motifslist = []
@@ -429,7 +467,7 @@ def task3scanwithmotifs(userquery):
     
     # save as csv file and let user know
     df_motifs.to_csv(f"./output/motifs_{userquery}.csv", index=False)
-    print(f"Please find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder 'output'.")
+    print(f"\nPlease find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder 'output'.")
     
     # move seq data into subfolder and tell user
     source = f"./output/seq_*"
@@ -437,9 +475,13 @@ def task3scanwithmotifs(userquery):
     # move to folder and tell user
     for file in glob.glob(source):
         shutil.move(file, destination)
-    print(f"Please find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files'.")
+    print(f"\nPlease find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files'.")
 
-    print("Finished moved files.")
+    print("\nFinished moved files.\n")
+    
+    
+    
+    
     
     exit()
     
@@ -448,7 +490,6 @@ def task3scanwithmotifs(userquery):
 
     # TODO:
     # make csv file more beautiful
-    # move patmatmotifs files into a separate folder and let user know
     # run plotcon with output file data --> numbers of conservation
     # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
     
