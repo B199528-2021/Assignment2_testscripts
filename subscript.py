@@ -400,6 +400,7 @@ def task3scanwithmotifs(userquery):
     # split the fasta sequences    
     fastalist = fastalist.split(">")
     
+    
     def find_headers(fastafile):
         """
         Reads a text file line by line to find out the headers.
@@ -418,8 +419,34 @@ def task3scanwithmotifs(userquery):
                 headers.append(lines)
         # delete "\n" from list elements
         headers = [h.replace("\n","") for h in headers]
-        return headers      
-
+        return headers    
+    # test function
+    headers = find_headers(f"output/{userquery}.fasta")
+    #print(headers)
+    
+    def get_acc(fastaheaderfile):
+        """
+        Reads a text file which contains FASTA headers only
+        line by line to find out the accession numbers.
+        Returns a list of accession numbers.
+        
+        Parameters:
+        -----------
+        
+        fastaheaderfile : string
+        """    
+        acc_list = []
+        for headerlines in headers:
+            # pick the first item, delete the bracket ">"
+            one_acc = headerlines.split()[0].replace(">", "")
+            # append it to list
+            acc_list.append(one_acc)
+        return acc_list
+    # test function
+    accessions = get_acc(headers)
+    print(accessions)
+    exit()
+    
     def get_organisms(fastaheaderfile):
         """
         Reads a text file which contains FASTA headers only
@@ -497,42 +524,25 @@ def task3scanwithmotifs(userquery):
     # motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
     # print(motifs)
     
-
-
+    
+    # try out a dict
+    #data = {}
+    # loop through each sequence
+    
+    
+    
+    
     # use functions
-    headers = find_headers(f"output/{userquery}.fasta")
+    
     organisms = get_organisms(headers)
     hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
-    motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
+    motifs = extract_motifs(f"./output/seq_0.patmatmotifs")
     
     print("\nTHIS IS A TEST\n")
     
     print(fastalist[0])
     
     print(fastalist[1])
-    
-    print(motifs)
-    
-    exit()
-    
-    # try out a dict
-    data = {}
-
-        # with open(patmatfile) as patfile:
-            # patfile = patfile.readlines()
-        # # get hitcount and motifs from file 
-        # hitcount = []
-        # for line in patfile:
-            # if "# HitCount: 0" == True:
-                # hitcount.append("0")
-            # else:
-                # if line.startswith("# HitCount"):
-                    # hitcount.append(line.rstrip().replace("# ",""))
-                # # get motif from file
-                # if line.startswith("Motif"):
-                    # hitcount.append(line.rstrip())
-        # return hitcount    
-    
     
     exit()
         
