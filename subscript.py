@@ -102,7 +102,7 @@ def task1():
     # error traps:
     invalid = True
     while invalid:
-        tax_group = input("\nTaxonomic group:\n").lower()
+        tax_group = input("\nTAXONOMIC GROUP:\n").lower()
         # don't allow apostroph or quotation marks, as they could end the string
         tax_group = tax_group.replace("'"," ")
         tax_group = tax_group.replace('"',' ')
@@ -279,17 +279,41 @@ def task1():
     
     
     #------------------get organisms---------------------
+    def get_organisms(fastaheaderfile):
+        """
+        Reads a text file which contains FASTA headers only
+        line by line to find out the organisms.
+        Returns a list of organisms.
         
-    # get the organisms of the headers
-    organisms = []
-    for headerlines in headers:
-        # delete the first part before the bracket
-        oneorganism = headerlines.split("[")[1]
-        # delete the other part after the bracket
-        oneorganism = oneorganism.replace("]", "")
-        organisms.append(oneorganism)
-    #print(organisms)
+        Parameters:
+        -----------
+        
+        fastaheaderfile : string
+        """    
+        organisms = []
+        for headerlines in headers:
+            # delete the first part before the bracket
+            oneorganism = headerlines.split("[")[1]
+            # delete the other part after the bracket
+            oneorganism = oneorganism.replace("]", "")
+            organisms.append(oneorganism) 
+        return organisms
     
+    # # get the organisms of the headers
+    # organisms = []
+    # for headerlines in headers:
+        # # delete the first part before the bracket
+        # oneorganism = headerlines.split("[")[1]
+        # # delete the other part after the bracket
+        # oneorganism = oneorganism.replace("]", "")
+        # organisms.append(oneorganism)
+    # #print(organisms)
+    
+    organisms = get_organisms(headers)
+    
+    print(organisms)
+    
+    exit()
     
     # get the number of each organism
     df_organisms = pd.DataFrame (organisms, columns = ["organism"])
