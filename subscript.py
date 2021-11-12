@@ -593,45 +593,14 @@ def task3scanwithmotifs(userquery):
     # move to folder and tell user
     for file in glob.glob(source):
         shutil.move(file, destination)
-    print(f"\nPlease find the single FASTA textfile and the single patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
+    print(f"\nPlease find the FASTA and patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
 
     
-    print("\END OF TEST\n")
+    print("\nEND OF TEST\n")
     
     exit()
-        
-    # loop through each sequence
-    motifslist = []
-    for count,content in enumerate(fastalist):
-        # save into a file
-        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
-            # add ">" to header again
-            eachseqfile.write(f">{content}")
-        # run patmatmotifs for each file
-        with open(f"output/seq_{count}.fasta") as eachseqfile:
-            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
-        # for all patmatmotifs files 
-        # get header and use function get_hitcount_motifs 
-        motifslist.append((headers[count], get_hitcount_motifs(f"seq_{count}.patmatmotifs")))
-    
-    #print(motifslist[0])
-    
-    # convert into  dataframe for user
-    df_motifs = pd.DataFrame(motifslist, columns = ["FASTA header", "motifs"])
-    
-    print(df_motifs)
-    
-    # save as csv file and let user know
-    df_motifs.to_csv(f"./output/motifs_{userquery}.csv", index=False)
-    print(f"\nPlease find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder 'output'.")
     
 
-    
-    
-    
-    
-    
-    exit()
     
 
     
@@ -642,15 +611,5 @@ def task3scanwithmotifs(userquery):
     # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
     
     
-    
-    
-    
-    # run patmatmotifs
-    subprocess.call(f"patmatmotifs ./output/{userquery}_aligned_seqs.fasta ./output/{userquery}.patmatmotifs", shell=True)
-    
-    
-    
-    print("TODO")
-    print(f"test{userquery}")
     
     
