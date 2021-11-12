@@ -578,11 +578,25 @@ def task3scanwithmotifs(userquery):
     data["organism"] = organisms
     data["nr_of_motifs"] = hitcountlist
     data["motifnames"] = motifslist
-    data["patmatmotifs_file"] = patfilelist
-    print(data)
+    data["patmatmotifs_file"] = patfilelist # this is for the user to find the files
     
     
-    print("\nTHIS IS A TEST\n")
+    # convert into dataframe
+    df = pd.DataFrame(data)
+    # save as csv file and let the user know
+    df.to_csv(f"./output/summary_{userquery}.csv", index=False)
+    print(f"\nPlease find the motifs of your sequences in the csv file 'summary_{userquery}.csv' in the folder 'output'.")
+    
+    # move seq data into subfolder to have a better overview and tell user
+    source = f"./output/seq_*"
+    destination = f"./output/{userquery}_patmatmotif_files"
+    # move to folder and tell user
+    for file in glob.glob(source):
+        shutil.move(file, destination)
+    print(f"\nPlease find the single FASTA textfile and the single patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
+
+    
+    print("\END OF TEST\n")
     
     exit()
         
@@ -611,15 +625,7 @@ def task3scanwithmotifs(userquery):
     df_motifs.to_csv(f"./output/motifs_{userquery}.csv", index=False)
     print(f"\nPlease find the motifs of your sequences in the csv file 'motifs_{userquery}.csv' in the folder 'output'.")
     
-    # move seq data into subfolder and tell user
-    source = f"./output/seq_*"
-    destination = f"./output/{userquery}_patmatmotif_files"
-    # move to folder and tell user
-    for file in glob.glob(source):
-        shutil.move(file, destination)
-    print(f"\nPlease find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files'.")
 
-    print("\nFinished moved files.\n")
     
     
     
