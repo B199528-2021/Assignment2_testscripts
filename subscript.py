@@ -299,21 +299,7 @@ def task1():
             organisms.append(oneorganism) 
         return organisms
     
-    # # get the organisms of the headers
-    # organisms = []
-    # for headerlines in headers:
-        # # delete the first part before the bracket
-        # oneorganism = headerlines.split("[")[1]
-        # # delete the other part after the bracket
-        # oneorganism = oneorganism.replace("]", "")
-        # organisms.append(oneorganism)
-    # #print(organisms)
-    
     organisms = get_organisms(headers)
-    
-    print(organisms)
-    
-    exit()
     
     # get the number of each organism
     df_organisms = pd.DataFrame (organisms, columns = ["organism"])
@@ -364,6 +350,7 @@ def task2clustalo(userquery):
     
     # return the variable "userquery", so that it can be used in the next task
     return userquery 
+
 
 def task2plotcon(userquery):
     
@@ -432,37 +419,99 @@ def task3scanwithmotifs(userquery):
         # delete "\n" from list elements
         headers = [h.replace("\n","") for h in headers]
         return headers      
-    
-    def get_hitcount_motifs(patf):    
-        # test for 1 patmatmotifs file first
-        # patf = "seq_2.patmatmotifs"
-        # extract HitCount
-        with open(f"./output/{patf}") as patfile:
-            patfile = patfile.readlines()
+
+    def get_organisms(fastaheaderfile):
+        """
+        Reads a text file which contains FASTA headers only
+        line by line to find out the organisms.
+        Returns a list of organisms.
         
-        # get hitcount and motifs from file 
-        hitcount = []
-        for line in patfile:
-            if "# HitCount: 0" == True:
-                hitcount.append("HitCount: 0")
-            else:
-                if line.startswith("# HitCount"):
-                    hitcount.append(line.rstrip().replace("# ",""))
-                # get motif from file
-                if line.startswith("Motif"):
-                    hitcount.append(line.rstrip())
-        return hitcount
+        Parameters:
+        -----------
+        
+        fastaheaderfile : string
+        """    
+        organisms = []
+        for headerlines in headers:
+            # delete the first part before the bracket
+            oneorganism = headerlines.split("[")[1]
+            # delete the other part after the bracket
+            oneorganism = oneorganism.replace("]", "")
+            organisms.append(oneorganism) 
+        return organisms
     
-    # use function
+    def extract_hitcount(patmatfile):   
+        """
+        Reads a patmatmotifs file line by line, 
+        which contains the number of hitcounts.
+        Returns the number of hitcounts.
+        
+        Parameters:
+        -----------
+        
+        patf : string
+            e.g. "seq_2.patmatmotifs"
+        """        
+        with open(patmatfile) as patfile:
+            patfile = patfile.readlines()
+        # iterate through lines
+        for line in patfile:
+            # pick lines that start with "# HitCount"
+            if line.startswith("# HitCount"):
+                # get index and letter from this line
+                for index,letter in enumerate(line):
+                    # if it's a digit, pick it
+                    if line[index].isdigit():
+                        # return the digit
+                        return line[index]
+                # number = int(filter(str.isdigit, line))
+                # return number
+                
+                # return [int(s) for s in line.split() if s.isdigit()]
+            
+        
+        
+        # hitcountvalue = []
+        # for line in patfile:
+            # if "# HitCount: 0" == True:
+                # hitcountvalue.append("0")
+            # else:
+                # if line.startswith("# HitCount"):
+                    # hitcountvalue.append(line.rstrip().replace("# ",""))
+        # return hitcountvalue
+
+    # use functions
     headers = find_headers(f"output/{userquery}.fasta")
+    organisms = get_organisms(headers)
+    hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
     
     print("\nTHIS IS A TEST\n")
     
     print(fastalist[0])
     
-    # try out a dict
-    #data = {}
+    print(fastalist[1])
     
+    print(hitcount)
+    
+    exit()
+    
+    # try out a dict
+    data = {}
+
+        # with open(patmatfile) as patfile:
+            # patfile = patfile.readlines()
+        # # get hitcount and motifs from file 
+        # hitcount = []
+        # for line in patfile:
+            # if "# HitCount: 0" == True:
+                # hitcount.append("0")
+            # else:
+                # if line.startswith("# HitCount"):
+                    # hitcount.append(line.rstrip().replace("# ",""))
+                # # get motif from file
+                # if line.startswith("Motif"):
+                    # hitcount.append(line.rstrip())
+        # return hitcount    
     
     
     exit()
