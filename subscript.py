@@ -449,7 +449,7 @@ def task3scanwithmotifs(userquery):
         Parameters:
         -----------
         
-        patf : string
+        patmatfile : string
             e.g. "seq_2.patmatmotifs"
         """        
         with open(patmatfile) as patfile:
@@ -464,26 +464,46 @@ def task3scanwithmotifs(userquery):
                     if line[index].isdigit():
                         # return the digit
                         return line[index]
-                # number = int(filter(str.isdigit, line))
-                # return number
-                
-                # return [int(s) for s in line.split() if s.isdigit()]
-            
+    # # test the function
+    # hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
+    # print(hitcount)
+    
+    def extract_motifs(patmatfile):   
+        """
+        Reads a patmatmotifs file line by line, 
+        which contains the motif(s).
+        Returns a list of motivs.
+        If there aren't any motivs, it returns an empty list.
         
+        Parameters:
+        -----------
         
-        # hitcountvalue = []
-        # for line in patfile:
-            # if "# HitCount: 0" == True:
-                # hitcountvalue.append("0")
-            # else:
-                # if line.startswith("# HitCount"):
-                    # hitcountvalue.append(line.rstrip().replace("# ",""))
-        # return hitcountvalue
+        patmatfile : string
+            e.g. "seq_2.patmatmotifs"
+        """        
+        with open(patmatfile) as patfile:
+            patfile = patfile.readlines()
+        # iterate through lines and append motifs in list
+        motiflist = []
+        for line in patfile:
+            # pick lines that start with "Motif"
+            if line.startswith("Motif"):
+                # delete first part of listelement: "Motif ="
+                motifline = line.replace("Motif = ", "")
+                # append to list without "\n" in list element
+                motiflist.append(motifline.rstrip())
+        return motiflist
+    # # test the function
+    # motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
+    # print(motifs)
+    
+
 
     # use functions
     headers = find_headers(f"output/{userquery}.fasta")
     organisms = get_organisms(headers)
     hitcount = extract_hitcount(f"./output/seq_0.patmatmotifs")
+    motifs = extract_motifs(f"./output/seq_24.patmatmotifs")
     
     print("\nTHIS IS A TEST\n")
     
@@ -491,7 +511,7 @@ def task3scanwithmotifs(userquery):
     
     print(fastalist[1])
     
-    print(hitcount)
+    print(motifs)
     
     exit()
     
