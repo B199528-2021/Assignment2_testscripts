@@ -48,28 +48,28 @@ def task1():
     # error traps:
     invalid = True
     while invalid:
-        prot_fam = input("\nProtein family:\n").lower()
+        prot_fam = input("\nPROTEIN FAMILY:\n").lower()
         # don't allow apostroph or quotation marks, as they could end the string
         prot_fam = prot_fam.replace("'"," ")
         prot_fam = prot_fam.replace('"',' ')
         # check if input is empty
         if not prot_fam:
-            print("Please type in a valid protein family!")
+            print("\nPlease type in a valid protein family!")
             continue
         # check if input is too small or too large
         if (len(prot_fam) < 2) or (len(prot_fam) > 30):
             if len(prot_fam) < 2:
-                print(f"{len(prot_fam)} is the length of your input.")
+                print(f"\n{len(prot_fam)} is the length of your input.")
                 print("Can a protein family consist of one letter only? Please try again.")
             else:
-                print(f"{len(prot_fam)} is the length of your input.")
+                print(f"\n{len(prot_fam)} is the length of your input.")
                 print("Maybe you have misread, do not paste in a sequence or so. Please just type in the protein family.")
             continue
         # check if more than 2 spaces side by side in input:
         if (len(prot_fam) - len(prot_fam.lstrip(' '))) >= 2:
-            print("You may have mistyped. Please try again.")
+            print("\nYou may have mistyped. Please try again.")
             continue
-        okay = input(f"Are you sure that you want to search for the protein family '{prot_fam}'? 'Yes'/'No' > ").lower()
+        okay = input(f"\nAre you sure that you want to search for the protein family '{prot_fam}'?\n'Yes'/'No' > ").lower()
         if (okay != "yes") and (okay != "y"):
             continue
         
@@ -108,22 +108,22 @@ def task1():
         tax_group = tax_group.replace('"',' ')
         # check if input is empty
         if not tax_group:
-            print("Please type in a valid taxonomic group!")
+            print("\nPlease type in a valid taxonomic group!")
             continue
         # check if input is too small or too large
         if (len(tax_group) < 2) or (len(tax_group) > 30):
             if len(tax_group) < 2:
-                print(f"{len(tax_group)} is the length of your input.")
+                print(f"\n{len(tax_group)} is the length of your input.")
                 print("Can a taxonomic group consist of one letter only? Please try again.")
             else:
-                print(f"{len(tax_group)} is the length of your input.")
+                print(f"\n{len(tax_group)} is the length of your input.")
                 print("Maybe you have misread, do not paste in a sequence or so. Please just type in the taxonomic group.")
             continue
         # check if more than 2 spaces side by side in input:
         if (len(tax_group) - len(tax_group.lstrip(' '))) >= 2:
-            print("You may have mistyped. Please try again.")
+            print("\nYou may have mistyped. Please try again.")
             continue
-        okay = input(f"Are you sure that you want to search for the taxonomic group '{tax_group}'? 'Yes'/'No' > ").lower()
+        okay = input(f"\nAre you sure that you want to search for the taxonomic group '{tax_group}'?\n'Yes'/'No' > ").lower()
         if (okay != "yes") and (okay != "y"):
             continue
         
@@ -173,12 +173,12 @@ def task1():
 
     invalid = True
     while invalid:
-        cont = input("Please in 'Yes' to continue (or 'No' if you want to start again). 'Yes'/'No' > ").lower()
+        cont = input("\nPlease type in 'Yes' to continue (or 'No' if you want to start again).\n'Yes'/'No' > ").lower()
         if cont not in ("yes", "y", "no", "n"):
             print("Please try again.")
             continue
         if cont in ("yes", "y"):
-            print("Okay, the sequences are now being downloaded...")
+            print("\nOkay, the sequences are now being downloaded...")
             break
         else:
             print("You have decided to stop and start this programme again with a new query.")
@@ -219,17 +219,7 @@ def task1():
     # # test function
     # print(find_headers(f"output/{userquery_replaced}.fasta"))
     
-    # This can be deleted:
-    # # read line by line to find out the headers
-    # with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
-        # fullfastafile = fullfastafile.readlines()
-    # headers = []
-    # for lines in fullfastafile:
-        # if lines.startswith(">"):
-            # headers.append(lines)
-    # # delete "\n" from list elements
-    # headers = [h.replace("\n","") for h in headers]
-    
+    # use function
     headers = find_headers(f"output/{userquery_replaced}.fasta")
     
     print("This is the result of your query:")
@@ -243,8 +233,9 @@ def task1():
         if cont not in ("yes", "y", "exclude", "no", "n", "include"):
             print("Please try again.")
             continue
+            
         if cont in ("yes", "y", "exclude"):
-            print("Okay, the sequences with 'PREDICTED' are excluded.")
+            print("\nOkay, the sequences with 'PREDICTED' are excluded.")
             
             both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL NOT PREDICTED'"
             # check the number of hits
@@ -271,18 +262,13 @@ def task1():
             # let the user know that old version is overwritten
             print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'. The old file was removed and replaced by this file.\n")
             
-            # read line by line to find out the headers
-            with open(f"output/{userquery_replaced}.fasta") as fullfastafile:
-                fullfastafile = fullfastafile.readlines()
-            headers = []
-            for lines in fullfastafile:
-                if lines.startswith(">"):
-                    headers.append(lines)
-            # delete "\n" from list elements
-            headers = [h.replace("\n","") for h in headers]
+            # use function
+            headers = find_headers(f"output/{userquery_replaced}.fasta")
+            
             break
+            
         if cont in ("no", "n", "include"):
-            print("Okay, the sequences with 'PREDICTED' are included.")
+            print("Okay, the sequences with 'PREDICTED' are included.\n")
             break
     
     userquery = userquery_replaced
@@ -320,9 +306,11 @@ def task1():
     
     # ask the user if it is ok to continue
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
+    print("Do you want to continue with these organisms?")
+    print("Please be aware: If you say 'No', you will have to start the whole query again!")
     invalid = True
     while invalid:
-        cont = input("Do you want to continue with these organisms? 'Yes'/'No' > ").lower()
+        cont = input("\nPlease type in 'Yes' to continue (or 'No' if you want to start again).\n'Yes'/'No' > ").lower()
         if cont not in ("yes", "y", "no", "n"):
             print("Please try again.")
             continue
@@ -401,18 +389,26 @@ def task3scanwithmotifs(userquery):
     # split the fasta sequences    
     fastalist = fastalist.split(">")
     
-    # extract the headerlines
-    with open(f"output/{userquery}.fasta") as fullfastafile:
-        fullfastafile = fullfastafile.readlines()
-    headers = []
-    for lines in fullfastafile:
-        if lines.startswith(">"):
-            headers.append(lines)
-    # delete "\n" from list elements
-    headers = [h.replace("\n","") for h in headers]     # list of headers
-
+    def find_headers(fastafile):
+        """
+        Reads a text file line by line to find out the headers.
+        Returns the header of a FASTA file.
+        
+        Parameters:
+        -----------
+        
+        fastafile : string
+        """
+        with open(fastafile) as fullfastafile:
+            fullfastafile = fullfastafile.readlines()
+        headers = []
+        for lines in fullfastafile:
+            if lines.startswith(">"):
+                headers.append(lines)
+        # delete "\n" from list elements
+        headers = [h.replace("\n","") for h in headers]
+        return headers      
     
-
     def get_hitcount_motifs(patf):    
         # test for 1 patmatmotifs file first
         # patf = "seq_2.patmatmotifs"
@@ -432,7 +428,10 @@ def task3scanwithmotifs(userquery):
                 if line.startswith("Motif"):
                     hitcount.append(line.rstrip())
         return hitcount
-
+    
+    # use function
+    headers = find_headers(f"output/{userquery}.fasta")
+    
     print("\nTHIS IS A TEST\n")
     
     print(fastalist[0])
