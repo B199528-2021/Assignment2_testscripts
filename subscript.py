@@ -529,26 +529,60 @@ def task3scanwithmotifs(userquery):
     #print(motifs)
     
     
+    # create lists for hitcount, motifs and patfiles
+    hitcountlist = []
+    motifslist = []
+    patfilelist = []
     
-    
-    # try out a dict
-    data = {}
-    # put accession numbers in dict
-    data["accession_number"] = accessions
-    # put organisms in dict
-    data["organism"] = organisms
+    # # check if correct assigned:
+    # header_check = []
     
     # loop through each sequences of fastafile
+    for count,content in enumerate(fastalist):
+        # save into a file
+        with open(f"output/seq_{count}.fasta", "w") as eachseqfile:
+            # add ">" to header again (needed for patmatmotifs)
+            eachseqfile.write(f">{content}")
+        # run patmatmotifs for each file
+        with open(f"output/seq_{count}.fasta") as eachseqfile:
+            # save patmatmotifs as file
+            subprocess.call(f"patmatmotifs ./output/seq_{count}.fasta ./output/seq_{count}.patmatmotifs", shell=True)
+        # create a list with patmatmotifs files
+        patfilelist.append(f"seq_{count}.patmatmotifs")
+        
+        # pick hitcount from patmatmotifs file and append to file
+        hitcount = extract_hitcount(f"./output/seq_{count}.patmatmotifs")
+        hitcountlist.append(hitcount)
+        
+        # pick motifs from patmatmotifs file and append to file
+        motifs = extract_motifs(f"./output/seq_{count}.patmatmotifs")
+        motifslist.append(motifs)
+        
+        # # for checking if correct assigned:
+        # header_check.append(headers[count])
+    
+    # # check loop
+    # print("\nhitcountlist")
+    # print(hitcountlist)
+    # print("\nmotifslist")
+    # print(motifslist)
+    # print("\nheader_check")
+    # print(header_check)
+    # print("\npatfilelist")
+    # print(patfilelist)
     
     
+    # write into a dict
+    data = {}
+    data["accession_number"] = accessions
+    data["organism"] = organisms
+    data["nr_of_motifs"] = hitcountlist
+    data["motifnames"] = motifslist
+    data["patmatmotifs_file"] = patfilelist
     print(data)
     
     
-    
-    
     print("\nTHIS IS A TEST\n")
-    
-    print(fastalist[0])
     
     exit()
         
