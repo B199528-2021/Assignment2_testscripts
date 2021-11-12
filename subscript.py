@@ -433,13 +433,11 @@ def task3scanwithmotifs(userquery):
     
     # move seq data into subfolder and tell user
     source = f"./output/seq_*"
-    destination = f"./output/{userquery}_patmatmotifs"
-    # delete folder if already exists               # TODO still ERROR
-    shutil.rmtree(destination, ignore_errors=True)  # TODO still ERROR
+    destination = f"./output/{userquery}_patmatmotif_files"
     # move to folder and tell user
     for file in glob.glob(source):
         shutil.move(file, destination)
-    print(f"Please find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}'.")
+    print(f"Please find the FASTA textfile and the patmatmotifs file for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files'.")
 
     print("Finished moved files.")
     

@@ -25,21 +25,27 @@ Path("output").mkdir(exist_ok=True)
 
 print("Please find all your output data in the folder 'output'.\n")
 
-# return the userinput and save it into the variable "userquery"
-userquery = task1() # check user input
+# # return the userinput and save it into the variable "userquery"
+# userquery = task1() # check user input
+
+# # use the userinput in the next task
+# userquery = task2clustalo(userquery)
+
+# # conservation analysis plot
+# userquery = task2plotcon(userquery)
 
 #=======================================TODO: delete!!!====================
-#userquery = "aves_glucose_6_phosphatase"
+userquery = "aves_glucose_6_phosphatase"
 
-# use the userinput in the next task
-userquery = task2clustalo(userquery)
+# create a subfolder for the patmatmotif files
+destination = f"./output/{userquery}_patmatmotif_files"
+dirpath = Path(destination)
+# delete folder if already exists
+if dirpath.exists() and dirpath.is_dir():
+    shutil.rmtree(dirpath)
+# create the subfolder
+Path(destination).mkdir()
 
-# conservation analysis plot
-userquery = task2plotcon(userquery)
-
-# compare with PROSITE database
-# create a subfolder for the patmatmotif files #TODO ERROR???
-Path(f"output/{userquery}_patmatmotifs").mkdir(parents=True, exist_ok=True)
 
 # scan with motifs from PROSITE database 
 task3scanwithmotifs(userquery)
