@@ -194,7 +194,9 @@ def task1():
     os.system(f"{both_query} | efetch -format fasta > ./output/{userquery_replaced}.fasta")
 
     # the full file
-    print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'.\n")
+    print(f"\nPlease find the fasta file '{userquery_replaced}.fasta' in the folder 'output'.")
+    # make sure that user has read this information
+    input("Press Enter to continue...")
     
     def find_headers(fastafile):
         """
@@ -222,7 +224,7 @@ def task1():
     # use function
     headers = find_headers(f"output/{userquery_replaced}.fasta")
     
-    print("This is the result of your query:")
+    print("\nThis is the result of your query:")
     print("\n".join(headers))   # show them to the user
     print(f"\nNumber of hits: {both_hits}")
     
@@ -235,12 +237,12 @@ def task1():
             continue
             
         if cont in ("yes", "y", "exclude"):
-            print("\nOkay, the sequences with 'PREDICTED' are excluded.")
+            print("Okay, the sequences with 'PREDICTED' are excluded.")
             
             both_query = f"esearch -db protein -query '{prot_fam}[PROT] AND {tax_group}[ORGN] NOT PARTIAL NOT PREDICTED'"
             # check the number of hits
             both_hits = count_nr_of_esearch_hits(both_query)
-            print(f"\nThe number of hits for {prot_fam.upper()} and {tax_group.upper()} without PREDICTED in the sequence is {both_hits}.\n")
+            print(f"The number of hits for {prot_fam.upper()} and {tax_group.upper()} without PREDICTED in the sequence is {both_hits}.\n")
             
             # set the minimum number of hits (a minimum of 2 is necessary for the multiple sequence alignment)
             # set the maximum number of hits (there is a maximum of 4000 sequences for clustalo)
@@ -261,6 +263,8 @@ def task1():
             os.system(f"{both_query} | efetch -format fasta > ./output/{userquery_replaced}.fasta")
             # let the user know that old version is overwritten
             print(f"Please find the fasta file '{userquery_replaced}.fasta' in the folder 'output'. The old file was removed and replaced by this file.\n")
+            # make sure that user has read this information
+            input("Press Enter to continue...\n")
             
             # use function
             headers = find_headers(f"output/{userquery_replaced}.fasta")
@@ -276,6 +280,7 @@ def task1():
     print("This is the result of your query:")
     print("\n".join(headers))   # show them to the user
     print(f"\nNumber of hits: {both_hits}")
+    # make sure that user has read this information
     
     
     #------------------get organisms---------------------
@@ -305,14 +310,17 @@ def task1():
     df_organisms = pd.DataFrame (organisms, columns = ["organism"])
 
     # let the user know
-    print(f"\nNumber of organisms represented in the dataset: {len(df_organisms['organism'].value_counts())}.")
-    print("Here you can see a preview of all organisms and how often they are represented in the data.\
-    In the left column you can find the organisms and in the right column how often they are represented:")
+    print(f"Number of organisms represented in the dataset: {len(df_organisms['organism'].value_counts())}.")
+    # make sure that user has read this information
+    input("Press Enter to continue...\n")
+    print("Here you can see a preview of all organisms and how often they are represented in the data.\nIn the left column you can find the organisms and in the right column how often they are represented:")
     print(df_organisms["organism"].value_counts())
-
-    print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.\n")
+    # make sure that user has read this information
+    input("Press Enter to continue...")
     df_organisms["organism"].value_counts().to_csv(f"./output/{userquery}_organisms_count.csv", header=False)
-    
+    print(f"\nPlease find the whole csv file in the folder 'output' under the name '{userquery}_organisms_count.csv'.")
+    # make sure that user has read this information
+    input("Press Enter to continue...\n")    
     
     # ask the user if it is ok to continue
     print("If you are not satisfied with this, you can stop here and start again with a new query.")
@@ -331,9 +339,6 @@ def task1():
             print("You have decided to stop and start again with a new query.")
             exit()
     
-    
-    print("\nChecking user input finished.\n")
-    
     # return the variable "userquery", so that it can be used in the next task
     return userquery
 
@@ -346,7 +351,9 @@ def task2clustalo(userquery):
     subprocess.call(f"clustalo --infile ./output/{userquery}.fasta --outfile ./output/{userquery}_aligned_seqs.fasta -v --force", shell=True)
     
     print(f"\nClustal Omega has finished.\n")
-    print(f"Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.\n")
+    print(f"Please find the aligned file '{userquery}_aligned_seqs.fasta' in the folder 'output'.")
+    # make sure that user has read this information
+    input("Press Enter to continue...")
     
     # return the variable "userquery", so that it can be used in the next task
     return userquery 
@@ -382,7 +389,9 @@ def task2plotcon(userquery):
     # save data of plot and let the user know
     subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph data -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
     print(f"Please find the exact values of this plot in the file '{userquery}_plot1.dat' in the folder 'output'.")
-
+    # make sure that user has read this information
+    input("Press Enter to continue...")
+    
     print("\nConservation analysis plot finished.\n")
     
     # return the variable "userquery", so that it can be used in the next task
@@ -575,6 +584,8 @@ def task3scanwithmotifs(userquery):
     # print("\npatfilelist")
     # print(patfilelist)
     
+    # update user
+    print("\nA dataframe is being created for you now...")
     
     # write into a dict
     data = {}
@@ -584,12 +595,13 @@ def task3scanwithmotifs(userquery):
     data["motifnames"] = motifslist
     data["patmatmotifs_file"] = patfilelist # this is for the user to find the files
     
-    
     # convert into dataframe
     df = pd.DataFrame(data)
     # save as csv file and let the user know
     df.to_csv(f"./output/summary_{userquery}.csv", index=False)
     print(f"\nPlease find the motifs of your sequences in the csv file 'summary_{userquery}.csv' in the folder 'output'.")
+    # make sure that user has read this information
+    input("Press Enter to continue...")
     
     # move seq data into subfolder to have a better overview and tell user
     source = f"./output/seq_*"
@@ -598,17 +610,7 @@ def task3scanwithmotifs(userquery):
     for file in glob.glob(source):
         shutil.move(file, destination)
     print(f"\nPlease find the FASTA and patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
-
-    
-    
-    exit()
-    
-    
-
-    # TODO:
-    # run plotcon with output file data --> numbers of conservation
-    # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
-    
-    
+    # make sure that user has read this information
+    input("Press Enter to continue...")
     
     
