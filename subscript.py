@@ -611,6 +611,6 @@ def task3scanwithmotifs(userquery):
         shutil.move(file, destination)
     print(f"\nPlease find the FASTA and patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
     # make sure that user has read this information
-    input("Press Enter to continue...")
+    input("Press Enter to finish this programme...")
     
     
