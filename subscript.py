@@ -80,7 +80,7 @@ def task1():
         
         # don't allow an input which has less than 2 hits (needed for clustalo)
         if prot_fam_hits < 2:
-            print(f"Number of hits:{prot_fam_hits}")
+            print(f"Number of hits: {prot_fam_hits}")
             print("You have probably mistyped the protein family because you have not enough hits for the analysis.")
             print("Please try again.")
             continue
@@ -134,7 +134,7 @@ def task1():
         
         # don't allow an input which has less than 2 hits (needed for clustalo)
         if tax_group_hits < 2:
-            print(f"Number of hits:{tax_group_hits}")
+            print(f"Number of hits: {tax_group_hits}")
             print("You have probably mistyped the taxonomic group because you have not enough hits for the analysis.")
             print("Please try again.")
             continue
@@ -229,7 +229,7 @@ def task1():
     # ask user if he wants to delete the predicted sequences 
     invalid = True
     while invalid:
-        cont = input("\nDo you want to exclude the sequences with the word 'PREDICTED' in their title?\n'Yes' for 'exclude' / 'No' for 'include' > ").lower()
+        cont = input("\nDo you want to exclude the sequences with the word 'PREDICTED' in their title?\n If no sequence has 'PREDICTED' in its title, you can type in 'Yes'.\n'Yes' for 'exclude' / 'No' for 'include' > ").lower()
         if cont not in ("yes", "y", "exclude", "no", "n", "include"):
             print("Please try again.")
             continue
@@ -378,6 +378,10 @@ def task2plotcon(userquery):
             subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph ps -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
             print(f"\nPlease find the conservation plot in the folder 'output' with the names '{userquery}_plot.svg' and '{userquery}_plot.ps'.")
             break
+    
+    # save data of plot and let the user know
+    subprocess.call(f"plotcon ./output/{userquery}_aligned_seqs.fasta -winsize 4 -graph data -goutfile {userquery}_plot -gdirectory ./output -verbose", shell=True)
+    print(f"Please find the exact values of this plot in the file '{userquery}_plot1.dat' in the folder 'output'.")
 
     print("\nConservation analysis plot finished.\n")
     
@@ -596,17 +600,12 @@ def task3scanwithmotifs(userquery):
     print(f"\nPlease find the FASTA and patmatmotifs files for each sequence in the folder 'output' in the subfolder '{userquery}_patmatmotif_files', in case you want to see each motif in greater detail.")
 
     
-    print("\nEND OF TEST\n")
     
     exit()
     
-
-    
-
     
 
     # TODO:
-    # make csv file more beautiful
     # run plotcon with output file data --> numbers of conservation
     # make blast analyses? for conservation analysis? to get the degree of similarity within the sequence chosen?
     
